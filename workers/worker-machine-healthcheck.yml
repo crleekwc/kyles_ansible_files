@@ -1,0 +1,19 @@
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineHealthCheck
+metadata:
+  name: example 
+  namespace: openshift-machine-api
+spec:
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-machine-role: worker 
+      machine.openshift.io/cluster-api-machine-type: worker 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructureID }}-worker-us-gov-east-1b" 
+  unhealthyConditions:
+  - type:    "Ready"
+    timeout: "300s" 
+    status: "False"
+  - type:    "Ready"
+    timeout: "300s" 
+    status: "Unknown"
+  maxUnhealthy: "40%" 
