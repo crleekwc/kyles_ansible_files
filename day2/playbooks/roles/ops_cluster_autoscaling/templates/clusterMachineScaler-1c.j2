@@ -4,8 +4,8 @@ metadata:
   name: "{{ infrastructure_name }}-worker-us-gov-east-1c"
   namespace: "openshift-machine-api"
 spec:
-  minReplicas: 3
-  maxReplicas: 6
+  minReplicas: 1
+  maxReplicas: 3
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
