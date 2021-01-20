@@ -30,14 +30,14 @@ spec:
           blockDevices:
             - ebs:
                 iops: 0
-                volumeSize: 120
+                volumeSize: 300
                 volumeType: gp2
           credentialsSecret:
             name: aws-cloud-credentials
           deviceIndex: 0
           iamInstanceProfile:
             id: "{{ infrastructure_name }}-worker-profile"  # Need to change this 
-          instanceType: m4.large
+          instanceType: m5a.2xlarge
           kind: AWSMachineProviderConfig
           placement:
             availabilityZone: us-gov-east-1b

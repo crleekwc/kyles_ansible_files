@@ -1,0 +1,59 @@
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  labels:
+    machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
+  name: "{{ infrastructure_name }}-infra-1b"
+  namespace: openshift-machine-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a" 
+  template:
+    metadata:
+      labels:
+        machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
+        machine.openshift.io/cluster-api-machine-role: infra
+        machine.openshift.io/cluster-api-machine-type: infra 
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a"
+    spec:
+      metadata:
+        labels:
+          node-role.kubernetes.io/infra: "" 
+      providerSpec:
+        value:
+          ami:
+            id: ami-a45ab1d5 
+          apiVersion: awsproviderconfig.openshift.io/v1beta1
+          blockDevices:
+            - ebs:
+                iops: 0
+                volumeSize: 300
+                volumeType: gp2
+          credentialsSecret:
+            name: aws-cloud-credentials
+          deviceIndex: 0
+          iamInstanceProfile:
+            id: "{{ infrastructure_name }}-infra-profile"  # Need to change this 
+          instanceType: m5a.2xlarge
+          kind: AWSMachineProviderConfig
+          placement:
+            availabilityZone: us-gov-east-1a
+            region: us-gov-east-1
+          securityGroups:
+            - filters:
+                - name: tag:Name
+                  values:
+                    - "{{ infrastructure_name }}-infra-sg"  # Change
+          subnet:
+            filters:
+              - name: tag:Name
+                values:
+                  - "{{ infrastructure_name }}-private-us-gov-east-1a"
+          tags:
+            - name: "kubernetes.io/cluster/{{ infrastructure_name }}"
+              value: owned
+          userDataSecret:
+            name: infra-user-data   # Change

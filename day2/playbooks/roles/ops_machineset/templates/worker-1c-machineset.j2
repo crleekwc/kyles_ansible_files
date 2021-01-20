@@ -3,25 +3,25 @@ kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-  name: "{{ infrastructure_name }}-infra-1b"
+  name: "{{ infrastructure_name }}-worker-us-gov-east-1c"
   namespace: openshift-machine-api
 spec:
   replicas: 1
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1c" 
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
-        machine.openshift.io/cluster-api-machine-role: infra
-        machine.openshift.io/cluster-api-machine-type: infra 
-        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a"
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker 
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1c"
     spec:
       metadata:
         labels:
-          node-role.kubernetes.io/infra: "" 
+          node-role.kubernetes.io/worker: "" 
       providerSpec:
         value:
           ami:
@@ -30,30 +30,30 @@ spec:
           blockDevices:
             - ebs:
                 iops: 0
-                volumeSize: 120
+                volumeSize: 300
                 volumeType: gp2
           credentialsSecret:
             name: aws-cloud-credentials
           deviceIndex: 0
           iamInstanceProfile:
-            id: "{{ infrastructure_name }}-infra-profile"  # Need to change this 
-          instanceType: m4.large
+            id: "{{ infrastructure_name }}-worker-profile"  # Need to change this 
+          instanceType: m5a.2xlarge
           kind: AWSMachineProviderConfig
           placement:
-            availabilityZone: us-gov-east-1a
+            availabilityZone: us-gov-east-1c
             region: us-gov-east-1
           securityGroups:
             - filters:
                 - name: tag:Name
                   values:
-                    - "{{ infrastructure_name }}-infra-sg"  # Change
+                    - "{{ infrastructure_name }}-worker-sg"  # Change
           subnet:
             filters:
               - name: tag:Name
                 values:
-                  - "{{ infrastructure_name }}-private-us-gov-east-1a"
+                  - "{{ infrastructure_name }}-private-us-gov-east-1c"
           tags:
             - name: "kubernetes.io/cluster/{{ infrastructure_name }}"
               value: owned
           userDataSecret:
-            name: infra-user-data   # Change
+            name: worker-user-data   # Change
