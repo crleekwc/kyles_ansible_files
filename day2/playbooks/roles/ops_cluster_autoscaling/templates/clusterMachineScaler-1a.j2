@@ -1,7 +1,7 @@
 apiVersion: "autoscaling.openshift.io/v1beta1"
 kind: "MachineAutoscaler"
 metadata:
-  name: "{{ infrastructure_name }}-worker-us-east-1d"
+  name: "{{ infrastructure_name }}-infra-us-gov-east-1a"
   namespace: "openshift-machine-api"
 spec:
   minReplicas: 1
@@ -9,4 +9,4 @@ spec:
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
-    name: {{ infrastructure_name }}-worker-us-east-1d
+    name: {{ infrastructure_name }}-infra-us-gov-east-1a
