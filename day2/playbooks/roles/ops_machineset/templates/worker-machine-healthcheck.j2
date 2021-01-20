@@ -8,7 +8,7 @@ spec:
     matchLabels:
       machine.openshift.io/cluster-api-machine-role: worker 
       machine.openshift.io/cluster-api-machine-type: worker 
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructureID }}-worker-us-gov-east-1b" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1b" 
   unhealthyConditions:
   - type:    "Ready"
     timeout: "300s" 

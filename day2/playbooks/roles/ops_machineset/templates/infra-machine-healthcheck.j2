@@ -8,7 +8,7 @@ spec:
     matchLabels:
       machine.openshift.io/cluster-api-machine-role: infra 
       machine.openshift.io/cluster-api-machine-type: infra 
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructureID }}-infra-us-gov-east-1a" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-us-gov-east-1a" 
   unhealthyConditions:
   - type:    "Ready"
     timeout: "300s" 

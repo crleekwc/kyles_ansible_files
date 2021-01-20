@@ -2,22 +2,22 @@ apiVersion: machine.openshift.io/v1beta1
 kind: MachineSet
 metadata:
   labels:
-    machine.openshift.io/cluster-api-cluster: "{{ infrastructureID }}"
-  name: "{{ infrastructureID }}-infra-1b"
+    machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
+  name: "{{ infrastructure_name }}-infra-1b"
   namespace: openshift-machine-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      machine.openshift.io/cluster-api-cluster: "{{ infrastructureID }}"
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructureID }}-infra-1a" 
+      machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a" 
   template:
     metadata:
       labels:
-        machine.openshift.io/cluster-api-cluster: "{{ infrastructureID }}" 
+        machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
         machine.openshift.io/cluster-api-machine-role: infra
         machine.openshift.io/cluster-api-machine-type: infra 
-        machine.openshift.io/cluster-api-machineset: "{{ infrastructureID }}-infra-1a"
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a"
     spec:
       metadata:
         labels:
@@ -36,7 +36,7 @@ spec:
             name: aws-cloud-credentials
           deviceIndex: 0
           iamInstanceProfile:
-            id: "{{ infrastructureID }}-infra-profile"  # Need to change this 
+            id: "{{ infrastructure_name }}-infra-profile"  # Need to change this 
           instanceType: m4.large
           kind: AWSMachineProviderConfig
           placement:
@@ -46,14 +46,14 @@ spec:
             - filters:
                 - name: tag:Name
                   values:
-                    - "{{ infrastructureID }}-infra-sg"  # Change
+                    - "{{ infrastructure_name }}-infra-sg"  # Change
           subnet:
             filters:
               - name: tag:Name
                 values:
-                  - "{{ infrastructureID }}-private-us-gov-east-1a"
+                  - "{{ infrastructure_name }}-private-us-gov-east-1a"
           tags:
-            - name: "kubernetes.io/cluster/{{ infrastructureID }}"
+            - name: "kubernetes.io/cluster/{{ infrastructure_name }}"
               value: owned
           userDataSecret:
             name: infra-user-data   # Change
