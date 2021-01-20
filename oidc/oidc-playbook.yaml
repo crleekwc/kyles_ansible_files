@@ -1,0 +1,71 @@
+---
+- name: configure OCP 4.5 ICAM
+  hosts: localhost
+  tasks:     
+    - name: creating icam-ca-config-map
+      k8s:  
+        kubeconfig: '{{ ansible_env["HOME"] }}/.kube/config'
+        state: present
+        name: icam-ca-config-map
+        namespace: openshift-config
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata: 
+            name: icam-ca-config-map
+            namespace: openshift-config
+          data: 
+            ca.crt: "{{lookup('file', './hostcacerts.crt')}}"
+
+    - name: creating icam client secret
+      k8s:
+        kubeconfig: '{{ ansible_env["HOME"] }}/.kube/config'
+        state: present
+        name: icam-clients-secret
+        namespace: openshift-config
+        definition:
+          apiVersion: v1
+          kind: secret
+          metadata: 
+            name: icam-clients-secret
+            namespace: openshift-config
+          type: Opaque
+          stringData:
+            clientSecret: <INSERT DATA>
+
+    - name: Add OIDC as OCP Oauth IdP
+      k8s:
+        kubeconfig: '{{ ansible_env["HOME"] }}/.kube/config'
+        state: present
+        name: cluster
+        namespace: openshift-config
+        definition:
+          apiVersion: v1
+          kind: OAuth
+          metadata:
+            name: cluster
+          spec:
+            identityProviders:
+            - name: icam
+              challenge: true
+              login: true
+              mappingMethod: claim
+              type: OpenID
+              openID:
+                clientID: svc-oauth-ocp-preprod
+                clientSecret:
+                  name: icam-clients-secret
+                ca: 
+                  name: icam-ca-config-map
+                claims:
+                  preferredUsername: 
+                  - preferred_username
+                  - email
+                  name: 
+                  - nickname
+                  - given_name
+                  - name
+                  email: 
+                  - custom_email_claim
+                  - email
+                issuer: https://oauth-preprod.ocp.host.local/uaa

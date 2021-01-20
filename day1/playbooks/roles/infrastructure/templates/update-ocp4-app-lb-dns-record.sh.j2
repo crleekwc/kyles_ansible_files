@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+
+#update-ocp4-app-lb-dns-record.sh
+
+if [[ $EUID -ne 0 ]]; then
+  echo -e "You must be root or execute $0 with sudo\n"
+  exit 1
+fi
+
+
+if [[ $# == 0 ]]; then
+  echo "Usage: $0 [ load_balancer_name ]"
+  exit 1
+fi
+
+OC_CMD=$(whereis -b oc | awk '{ print $2 }')
+APP_LB_DNS_NAME=$(/usr/local/bin/aws elb describe-load-balancers --load-balancer-name "$1" --query LoadBalancerDescriptions[].DNSName | /usr/bin/jq -r '.[0]')
+APP_LB_SG=$(/usr/local/bin/aws elb describe-load-balancers --load-balancer-name "$1" --query LoadBalancerDescriptions[].SecurityGroups | jq -r '.[0][0]')
+
+{% if remove_ocp_annotation_aws_lb | default(False) | bool %}
+if [[ -e {{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig ]]; then
+  export KUBECONFIG={{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig
+elif [[ -e {{ lookup('env','HOME') }}/.kube/config ]]; then
+  export KUBECONFIG={{ lookup('env','HOME') }}/.kube/config
+else
+  echo -e "^FAIL: Unable to determine kubeconfig\n No changes applied to OpenShift cluster\n"
+fi
+
+if [[ -z $OC_CMD ]]; then
+  echo -e "^FAIL: Unable to determine path for oc binary\n"
+fi
+
+$OC_CMD -n openshift-ingress annotate svc -l app=router service.beta.kubernetes.io/aws-load-balancer-internal- &> /dev/null
+
+
+if [[ $? == 0 ]]; then
+  echo -e "COMPLETE: Updated annotation successfully removed from $($OC_CMD get svc -n openshift-ingress -l app=router -o name)\n"
+else
+  echo -e "^FAIL: Unable to update annotation for service\n"
+fi
+{% endif %}
+
+{% if wildcard_name | default("None", true) %}
+if [[ -z $APP_LB_DNS_NAME ]]; then
+  echo -e "^FAIL: Unable to determine DNS name for AWS load balancer $1 for *.{{ wildcard_name }}.{{ cluster_name }}.{{ base_domain }}"
+  APP_LB_DNS_NAME=NOT_VALID
+fi
+{% endif %}
+
+
+if [[ $APP_LB_DNS_NAME == "NOT_VALID" ]]; then
+  echo -e "^FAIL: Invalid DNS name $APP_LB_DNS_NAME returned for AWS load balancer $1\n"
+else
+{% if wildcard_name != "None" and cluster_name is defined and base_domain is defined and dns_server is defined %}
+cat <<EOF | nsupdate
+server {{ dns_server }}
+update delete *.{{ wildcard_name }}.{{ cluster_name }}.{{ base_domain }} A
+update add *.{{ wildcard_name }}.{{ cluster_name }}.{{ base_domain }} 300 cname $APP_LB_DNS_NAME
+show
+send
+EOF
+fi
+
+sleep 20
+
+if [[ $APP_LB_DNS_NAME != "NOT_VALID" ]]; then
+
+dig *.{{ wildcard_name }}.{{ cluster_name }}.{{ base_domain }} | grep NOERROR 1>/dev/null && \
+echo -e "COMPLETE: CNAME record $APP_LB_DNS_NAME queried successfully for *.{{ wildcard_name }}.{{ cluster_name }}.{{ base_domain }}\n" || \
+echo -e "^FAIL: Unable to query CNAME record for *.{{ wildcard_name }}.{{ cluster_name }}.{{ base_domain }}\n"
+
+fi
+
+{% else %}
+echo -e "^FAIL: Critical Error detected when getting results from nsupdate parameters and output\n"
+{% endif %}
+
+if [[ -z $APP_LB_SG ]]; then
+  echo -e "^FAIL: Unable to determine existing SecurityGroupID for AWS load balancer $1\n"
+fi
+
+{% if allowed_ingress_cidr | default("0.0.0.0/8", true) %}
+if [[ -n $APP_LB_SG ]]; then
+  /usr/local/bin/aws ec2 authorize-security-group-ingress --group-id "$APP_LB_SG" --ip-permissions IpProtocol=tcp,FromPort=80,ToPort=80,IpRanges=[{CidrIp={{ allowed_ingress_cidr }}}] IpProtocol=tcp,FromPort=443,ToPort=443,IpRanges=[{CidrIp={{ allowed_ingress_cidr }}}] IpProtocol=icmp,FromPort=3,ToPort=4,IpRanges=[{CidrIp={{ allowed_ingress_cidr }}}] && \
+  echo -e "COMPLETE: Inbound rules successfully added to security group $APP_LB_SG\n" || \
+  echo -e "^FAIL: Unable to add inbound rules to security group $APP_LB_SG\n"
+fi
+{% endif %}
+
+if [[ -n $APP_LB_SG ]]; then
+  /usr/local/bin/aws ec2 revoke-security-group-ingress --group-id "$APP_LB_SG" --ip-permissions IpProtocol=tcp,FromPort=80,ToPort=80,IpRanges=[{CidrIp=0.0.0.0/0}] IpProtocol=tcp,FromPort=443,ToPort=443,IpRanges=[{CidrIp=0.0.0.0/0}] IpProtocol=icmp,FromPort=3,ToPort=4,IpRanges=[{CidrIp=0.0.0.0/0}] && \
+  echo -e "COMPLETE: Default inbound rules successfully removed from security group $APP_LB_SG\n" || \
+  echo -e "^FAIL: Unable to remove default inbound rules from security group $APP_LB_SG\n"
+fi
+
+
+{% if aws_default_security_group_id | default("None", true) %}
+
+/usr/local/bin/aws elb apply-security-groups-to-load-balancer --load-balancer-name "$1" --security-groups "$APP_LB_SG" {{ aws_default_security_group_id }}
+
+if [[ $? == 0 ]]; then
+  echo -e "COMPLETE: Security Group IDs $APP_LB_SG {{ aws_default_security_group_id }} successfully added to AWS load balancer $1\n"
+else
+  echo -e "^FAIL: Unable to add Security Group IDs $APP_LB_SG {{ aws_default_security_group_id }} to AWS load balancer $1\n"
+fi
+
+{% endif %}
+
+{% if private_subnets|length %}
+
+/usr/local/bin/aws elb attach-load-balancer-to-subnets --load-balancer-name "$1" --subnets {{ private_subnets.0 }} {{ private_subnets.1 }} {{ private_subnets.2 }}
+
+if [[ $? == 0 ]]; then
+  echo -e "COMPLETE: Subnets {{ private_subnets.0 }} {{ private_subnets.1 }} {{ private_subnets.2 }} successfully added to AWS load balancer $1\n"
+else
+  echo -e "^FAIL: Unable to add subnets {{ private_subnets.0 }} {{ private_subnets.1 }} {{ private_subnets.2 }} to AWS load balancer $1\n"
+fi
+
+{% endif %}
+

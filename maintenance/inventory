@@ -1,0 +1,20 @@
+[ocp4:children]
+<enter host for masters>
+<enter host for workers>
+
+[ocp4:vars]
+ansible_become=true
+ansible_ssh_user=core
+ansible_ssh_private_key_file=/path/to/ssh/key
+host_key_checking=false
+timeout=120
+
+
+[masters]
+<enter host for masters>
+
+
+[workers]
+<enter host for workers>
+
+

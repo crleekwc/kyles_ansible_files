@@ -1,0 +1,5 @@
+---
+# defaults file for ops_cluster_image_custom_certificate
+
+cluster_name: ""
+base_domain: ""

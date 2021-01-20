@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: efs-provisioner
+  namespace: default
+data:
+  file.system.id: "{{ efs_filesystem_id | default('') | quote }}"
+  aws.region: "{{ default_region | default('us-east-1') }}"
+  provisioner.name: openshift.org/aws-efs
+  dns.name: "{{ efs_fqdn | default('') | quote }}"

@@ -1,0 +1,122 @@
+---
+# set-cluster-running-state.yml
+
+- name: Set OpenShift cluster running state to {{ cluster_is_running | default('True') | bool }}
+  hosts: ocp4:localhost
+
+  tasks:
+
+    - name: Get stopped ec2 info
+      ec2_instance_info:
+        filters:
+          "tag:Name": cluster1-XXXXX-*
+          instance-state-name: "stopped"
+      delegate_to: localhost
+      run_once: True
+      register: r_ec2_stopped_instances
+      when: cluster_is_running | default('True') | bool
+
+    - name: Set fact for ec2 stopped instances
+      set_fact: 
+        ec2_stopped_instances: "{{ r_ec2_stopped_instances.instances | map(attribute='instance_id') | list }}"
+      delegate_to: localhost
+      run_once: True
+      when: cluster_is_running | default('True') | bool
+     
+    - name: Start ec2 instances 
+      ec2:
+        instance_ids: "{{ ec2_stopped_instances }}"
+        state: running 
+        region: "{{ default_region | default('us-east-1') }}"
+        wait: True
+        wait_timeout: 500
+      delegate_to: localhost
+      run_once: True
+      register: r_start_ec2_instances
+      when: cluster_is_running | default('True') | bool
+      failed_when: false
+      changed_when: r_start_ec2_instances is succeeded
+
+
+    - block: 
+
+        - name: Create etcd backup
+          shell: /usr/local/bin/cluster-backup.sh /home/core/assets/backup
+          failed_when: False
+
+        - name: Set ownership for etcd backup
+          file: 
+            path: /home/core/assets/backup
+            owner: core
+            group: core
+            recurse: True
+          failed_when: False
+
+
+      when:
+        - not cluster_is_running | default('True') | bool
+        - inventory_hostname in groups['masters']
+      become_user: root
+
+    - name: Rsync etcd backups
+      synchronize:
+        mode: pull
+        src: /home/core/assets/backup
+        dest: /var/tmp/etcd-backups/{{ lookup('pipe','date +%F') }}/
+      run_once: True
+      failed_when: False
+      when: 
+        - not cluster_is_running | default('True') | bool
+
+    - name:  Locate etcd backup file
+      find:
+        paths: /var/tmp/etcd-backups/{{ lookup('pipe','date +%F') }}
+        patterns: "*{{ lookup('pipe','date +%F') }}*"
+        recurse: True
+      delegate_to: localhost
+      run_once: True
+      register: etcd_backup
+      when: 
+        - not cluster_is_running | default('True') | bool
+
+    - name:  Abort if failure returned to find etcd backups
+      fail:
+        msg: |
+          Unable to locate any etcd pod backups
+          Ensure backup is completed for etcd before proceeding with cluster shutdown
+      delegate_to: localhost
+      run_once: True
+      when: 
+        - not cluster_is_running | default('True') | bool
+        - etcd_backup.matched == 0
+
+    - name: Get running ec2 info
+      ec2_instance_info:
+        filters:
+          "tag:Name": cluster1-XXXXX-*
+          instance-state-name: "running"
+      delegate_to: localhost
+      run_once: True
+      register: r_ec2_running_instances
+      when: not cluster_is_running | default('True') | bool
+
+    - name: Set fact for ec2 running instances
+      set_fact: 
+        ec2_running_instances: "{{ r_ec2_running_instances.instances | map(attribute='instance_id') | list }}"
+      delegate_to: localhost
+      run_once: True
+      when: not cluster_is_running | default('True') | bool
+
+    - name: Stop ec2 instances 
+      ec2:
+        instance_ids: "{{ ec2_running_instances }}"
+        state: stopped 
+        region: "{{ default_region | default('us-east-1') }}"
+        wait: True
+        wait_timeout: 500
+      delegate_to: localhost
+      run_once: True
+      register: r_stop_ec2_instances
+      when: not cluster_is_running | default('True') | bool
+      failed_when: false
+      changed_when: r_stop_ec2_instances is succeeded

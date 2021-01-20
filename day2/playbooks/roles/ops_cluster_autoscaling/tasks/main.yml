@@ -1,0 +1,8 @@
+---
+# tasks file for ops_cluster_autoscaling
+
+- name: Include tasks from playbook
+  include_tasks: clusterautoscaler.yml
+
+- name: Include tasks from playbook
+  include_tasks: machineautoscaler.yml

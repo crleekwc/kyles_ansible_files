@@ -1,0 +1,5 @@
+---
+# tasks file for ops_efk
+
+- name: Include tasks from playbook
+  include_tasks: efk-logging.yml

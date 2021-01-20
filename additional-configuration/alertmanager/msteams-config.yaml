@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  config.yml: "connectors:   \n- <hook_path>: <webhook> \n-
+    <hook_path2>: <webhook>"
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: msteams
+

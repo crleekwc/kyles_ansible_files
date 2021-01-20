@@ -1,0 +1,43 @@
+cluster_name: cluster1
+base_domain: ocp.local
+wildcard_name: apps3
+dns_server: 10.1.1.1
+master_api_names:
+  - api.{{ cluster_name }}.{{ base_domain }}
+  - api-int.{{ cluster_name }}.{{ base_domain }}
+
+vpc_id: vpc-XXXXXXXX
+vpc_cidr: 172.16.0.0/10
+private_subnets:
+  - subnet-XXXXXXXX
+  - subnet-XXXXXXXX
+  - subnet-XXXXXXXX
+
+allowed_ingress_cidr: 172.16.0.0/8
+
+aws_default_security_group_id: "sg-XXXXXXXX"
+
+instance_worker_type: r5.2xlarge
+
+user_tags:
+  Backup: "yes"
+  Cluster: Cluster1
+  ServerFunction: openshift
+  System: OpenShift
+  Environment: Cluster1
+  FismaId: ABC-XXXXX
+  POC: jane.doe@ocp.local
+  Scheduler: none
+
+registry_mirror_url: registry.ocp.local:5000/ocp4/openshift4
+
+ssh_public_key: 'ssh-rsa AAAAxxxxx ec2-user@host'
+
+pull_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES250
+          580101055750515052005051510150515951020202590051555701550500
+
+registry_ca_trust_bundle: |
+  -----BEGIN CERTIFICATE-----
+  < INSERT DATA >
+  -----END CERTIFICATE-----

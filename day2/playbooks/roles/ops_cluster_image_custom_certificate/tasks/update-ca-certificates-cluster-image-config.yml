@@ -1,0 +1,79 @@
+---
+# update-ca-certificates-cluster-image-config.yml
+
+- name: Create configMap {{ config_map_registry_name | default('cm-custom-registry-ca') }}
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    name: "{{ config_map_registry_name | default('cm-custom-registry-ca') }}"
+    namespace: openshift-config
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: "{{ config_map_registry_name | default('cm-custom-registry-ca') }}"
+        namespace: openshift-config
+      data:
+        registry.ocp.local..5000: "{{lookup('file', '../files/registry.host.pem')}}"
+
+- name: Get OpenShift image config facts
+  k8s_info:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    api_version: config.openshift.io/v1
+    kind: Image
+    name: cluster
+  register: cluster_image_registry
+
+- name: Set cluster image config resource version
+  set_fact: 
+    cluster_image_resource_version: "{{ item.metadata.resourceVersion }}"
+  loop: "{{ cluster_image_registry.resources }}"
+  no_log: true
+
+- name: Update cluster image config to add trusted CA
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    definition:
+      apiVersion: config.openshift.io/v1
+      kind: Image
+      metadata:
+        name: cluster
+        resourceVersion: "{{ cluster_image_resource_version }}"
+      spec:
+        additionalTrustedCA:
+          name: "{{ config_map_registry_name | default('cm-custom-registry-ca') }}"
+
+- name: Get OpenShift samples operator config facts
+  k8s_info:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    api_version: samples.operator.openshift.io/v1
+    kind: Config
+    name: cluster
+  register: cluster_samples_operator
+
+- name: Set cluster samples operator config resource version
+  set_fact: 
+    cluster_samples_operator_resource_version: "{{ item.metadata.resourceVersion }}"
+  loop: "{{ cluster_samples_operator.resources }}"
+  no_log: true
+
+- name: Update cluster samples operator config to add {{ registry_mirror_url | default('registry.ocp.local:5000') }}
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    definition:
+      apiVersion: samples.operator.openshift.io/v1
+      kind: Config
+      metadata:
+        name: cluster
+        resourceVersion: "{{ cluster_samples_operator_resource_version }}"
+      spec:
+        architectures:
+        - x86_64
+        managementState: Managed
+        samplesRegistry: "{{ registry_mirror_url | default('registry.ocp.local:5000') }}"
+

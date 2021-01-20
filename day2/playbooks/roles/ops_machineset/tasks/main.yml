@@ -1,0 +1,5 @@
+---
+# tasks file for ops_machineset
+
+- name: Include tasks from playbook
+  include_tasks: machineconfig-playbook.yml

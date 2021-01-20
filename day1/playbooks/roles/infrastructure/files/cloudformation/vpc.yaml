@@ -1,0 +1,479 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  EnvironmentName:
+    Type: String
+  VpcCidr:
+    Default: 10.0.0.0/16
+    Type: String
+
+Resources:
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      EnableDnsSupport: "false"
+      EnableDnsHostnames: "true"
+      CidrBlock: !Ref VpcCidr
+      Tags:
+        - Key: "Name"
+          Value: !Join ["-", [!Ref EnvironmentName, "vpc"]]
+  DHCPOptions:
+    Type: "AWS::EC2::DHCPOptions"
+    Properties:
+      DomainName: ocp.local
+      DomainNameServers:
+      - 10.0.10.10
+  DHCPOptionsAssociation:
+    Type: AWS::EC2::VPCDHCPOptionsAssociation
+    Properties:
+      DhcpOptionsId: !Ref DHCPOptions
+      VpcId: !Ref VPC
+  PublicSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.10.0/24
+      AvailabilityZone: !Select
+      - 0
+      - Fn::GetAZs: !Ref "AWS::Region"
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "public0"]]
+  PublicSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.11.0/24
+      AvailabilityZone: !Select
+      - 1
+      - Fn::GetAZs: !Ref "AWS::Region"
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "public1"]]
+  PublicSubnet3:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.12.0/24
+      AvailabilityZone: !Select
+      - 2
+      - Fn::GetAZs: !Ref "AWS::Region"
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "public2"]]
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+  GatewayToInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  PublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+  PublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: GatewayToInternet
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  PublicSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetRouteTableAssociation2:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetRouteTableAssociation3:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet3
+      RouteTableId: !Ref PublicRouteTable
+  PrivateSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.100.0/24
+      AvailabilityZone: !Select
+      - 0
+      - Fn::GetAZs: !Ref "AWS::Region"
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "private0"]]
+  PrivateRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnet
+      RouteTableId: !Ref PrivateRouteTable
+  NAT:
+    DependsOn:
+    - GatewayToInternet
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        "Fn::GetAtt":
+        - EIP
+        - AllocationId
+      SubnetId: !Ref PublicSubnet
+  EIP:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: vpc
+  Route:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT
+  PrivateSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.101.0/24
+      AvailabilityZone: !Select
+      - 1
+      - Fn::GetAZs: !Ref "AWS::Region"
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "private1"]]
+  PrivateRouteTable2:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRouteTableAssociation2:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable2
+  NAT2:
+    DependsOn:
+    - GatewayToInternet
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        "Fn::GetAtt":
+        - EIP2
+        - AllocationId
+      SubnetId: !Ref PublicSubnet2
+  EIP2:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: vpc
+  Route2:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT2
+  PrivateSubnet3:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.102.0/24
+      AvailabilityZone: !Select
+      - 2
+      - Fn::GetAZs: !Ref "AWS::Region"
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "private2"]]
+  PrivateRouteTable3:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRouteTableAssociation3:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnet3
+      RouteTableId: !Ref PrivateRouteTable3
+  NAT3:
+    DependsOn:
+    - GatewayToInternet
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        "Fn::GetAtt":
+        - EIP3
+        - AllocationId
+      SubnetId: !Ref PublicSubnet3
+  EIP3:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: vpc
+  Route3:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable3
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT3
+  BastionIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: "Allow"
+          Principal:
+            Service:
+            - "ec2.amazonaws.com"
+          Action:
+          - "sts:AssumeRole"
+      Policies:
+      - PolicyName: !Join ["-", [!Ref EnvironmentName, "bastion", "policy"]]
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action:
+            - "*"
+            Resource: "*"
+  BastionInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      InstanceProfileName: !Join ["-", [!Ref EnvironmentName, "bastion", "profile"]]
+      Roles:
+      - Ref: BastionIamRole
+  BastionSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Join ["-", [!Ref EnvironmentName, "bastion", "sg"]]
+      GroupDescription: Bastion Security Group
+      SecurityGroupIngress:
+      - IpProtocol: icmp
+        FromPort: 0
+        ToPort: 0
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 53
+        ToPort: 53
+        CidrIp: !Ref VpcCidr
+      - IpProtocol: udp
+        FromPort: 53
+        ToPort: 53
+        CidrIp: !Ref VpcCidr
+      - IpProtocol: tcp
+        FromPort: 5000
+        ToPort: 5000
+        CidrIp: !Ref VpcCidr
+      VpcId: !Ref VPC
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "bastion", "sg"]]
+  AWSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: optional-aws-default-sg
+      GroupDescription: Bastion Security Group
+      SecurityGroupIngress:
+      - IpProtocol: icmp
+        FromPort: 0
+        ToPort: 0
+        CidrIp: !Ref VpcCidr
+      VpcId: !Ref VPC
+      Tags:
+      - Key: "Name"
+        Value: optional-aws-default-sg
+  Bastion:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-058f90e71a7d69115
+      BlockDeviceMappings:
+      - DeviceName: /dev/xvda
+        Ebs:
+          VolumeSize: "120"
+          VolumeType: "gp2"
+      IamInstanceProfile: !Ref BastionInstanceProfile
+      InstanceType: m5.large
+      KeyName: aws
+      NetworkInterfaces:
+      - AssociatePublicIpAddress: "true"
+        DeviceIndex: "0"
+        GroupSet:
+        - !Ref BastionSecurityGroup
+        SubnetId: !Ref PublicSubnet
+        PrivateIpAddress: 10.0.10.10
+      Tags:
+      - Key: Name
+        Value: !Join ["-", [!Ref EnvironmentName, "bastion"]]
+  BastionEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref Bastion
+  EndpointSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Join ["-", [!Ref EnvironmentName, "endpoint", "sg"]]
+      GroupDescription: Cluster Worker Security Group
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: !Ref VpcCidr
+      VpcId: !Ref VPC
+      Tags:
+      - Key: "Name"
+        Value: !Join ["-", [!Ref EnvironmentName, "endpoint", "sg"]]
+  S3Endpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - '*'
+          Resource:
+          - '*'
+      RouteTableIds:
+      - !Ref PublicRouteTable
+      - !Ref PrivateRouteTable
+      - !Ref PrivateRouteTable2
+      - !Ref PrivateRouteTable3
+      ServiceName: !Join
+      - ''
+      - - com.amazonaws.
+        - !Ref 'AWS::Region'
+        - .s3
+      VpcId: !Ref VPC
+  EC2Endpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - '*'
+          Resource:
+          - '*'
+      SubnetIds:
+      - !Ref PrivateSubnet
+      - !Ref PrivateSubnet2
+      - !Ref PrivateSubnet3
+      SecurityGroupIds:
+      - !Ref EndpointSecurityGroup
+      ServiceName: !Join
+      - ''
+      - - com.amazonaws.
+        - !Ref 'AWS::Region'
+        - .ec2
+      VpcEndpointType: Interface
+      VpcId: !Ref VPC
+  KMSEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - '*'
+          Resource:
+          - '*'
+      SubnetIds:
+      - !Ref PrivateSubnet
+      - !Ref PrivateSubnet2
+      - !Ref PrivateSubnet3
+      SecurityGroupIds:
+      - !Ref EndpointSecurityGroup
+      ServiceName: !Join
+      - ''
+      - - com.amazonaws.
+        - !Ref 'AWS::Region'
+        - .kms
+      VpcEndpointType: Interface
+      VpcId: !Ref VPC
+  STSEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - '*'
+          Resource:
+          - '*'
+      SubnetIds:
+      - !Ref PrivateSubnet
+      - !Ref PrivateSubnet2
+      - !Ref PrivateSubnet3
+      SecurityGroupIds:
+      - !Ref EndpointSecurityGroup
+      ServiceName: !Join
+      - ''
+      - - com.amazonaws.
+        - !Ref 'AWS::Region'
+        - .sts
+      VpcEndpointType: Interface
+      VpcId: !Ref VPC
+  ELBEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - '*'
+          Resource:
+          - '*'
+      SubnetIds:
+      - !Ref PrivateSubnet
+      - !Ref PrivateSubnet2
+      - !Ref PrivateSubnet3
+      SecurityGroupIds:
+      - !Ref EndpointSecurityGroup
+      ServiceName: !Join
+      - ''
+      - - com.amazonaws.
+        - !Ref 'AWS::Region'
+        - .elasticloadbalancing
+      VpcEndpointType: Interface
+      VpcId: !Ref VPC
+
+Outputs:
+  VpcId:
+    Description: ID of the new VPC.
+    Value: !Ref VPC
+  PublicSubnetIds:
+    Description: Subnet IDs of the public subnets.
+    Value:
+      !Join [
+        ",",
+        [!Ref PublicSubnet, !Ref PublicSubnet2, !Ref PublicSubnet3]
+      ]
+  PrivateSubnetIds:
+    Description: Subnet IDs of the private subnets.
+    Value:
+      !Join [
+        ",",
+        [!Ref PrivateSubnet, !Ref PrivateSubnet2, !Ref PrivateSubnet3]
+      ]

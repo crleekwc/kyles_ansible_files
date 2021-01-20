@@ -1,0 +1,134 @@
+---
+# update-ca-certificates-default-ingress-config.yml
+
+- name: Create configMap {{ config_map_ingress_name | default('cm-ingress-custom-ca') }}
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    name: "{{ config_map_ingress_name | default('cm-ingress-custom-ca') }}"
+    namespace: openshift-config
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: "{{ config_map_ingress_name | default('cm-ingress-custom-ca') }}"
+        namespace: openshift-config
+      data:
+        ca-bundle.crt: "{{lookup('file', '../files/host-ca-bundle.crt')}}"
+
+- name: Get OpenShift proxy config facts
+  k8s_info:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    api_version: config.openshift.io/v1
+    kind: Proxy
+    name: cluster
+  register: cluster_custom_proxy
+
+- name: Set cluster proxy config resource version
+  set_fact: 
+    cluster_proxy_resource_version: "{{ item.metadata.resourceVersion }}"
+  loop: "{{ cluster_custom_proxy.resources }}"
+  no_log: true
+
+- name: Update cluster proxy config to add trusted CA
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    definition:
+      apiVersion: config.openshift.io/v1
+      kind: Proxy
+      metadata:
+        generation: 1
+        managedFields:
+        - apiVersion: config.openshift.io/v1
+          fieldsType: FieldsV1
+          fieldsV1:
+            f:spec:
+              .: {}
+              f:trustedCA:
+                .: {}
+                f:name: {}
+            f:status: {}
+          manager: cluster-bootstrap
+          operation: Update
+        name: cluster
+        resourceVersion: "{{ cluster_proxy_resource_version }}"
+      spec:
+        trustedCA:
+          name: "{{ config_map_ingress_name | default('cm-ingress-custom-ca') }}"
+
+- name: Get base64 encode output for wildcard cert
+  shell: base64 {{ role_path}}/files/wildcard.host-ca-bundle.crt
+  changed_when: false
+  register: r_wildcard_certificate_b64encode
+
+- name: Get base64 encode output for wildcard cert key
+  shell: base64 {{ role_path}}/files/wildcard.host-bundle.key
+  changed_when: false
+  register: r_wildcard_certificate_key_b64encode
+
+- name: Set wildcard certificate base64 encoded
+  set_fact:
+    wildcard_certificate_b64encoded: "{{ r_wildcard_certificate_b64encode.stdout }}"
+
+- name: Set wildcard certificate key base64 encoded
+  set_fact:
+    wildcard_certificate_key_b64encoded: "{{ r_wildcard_certificate_key_b64encode.stdout }}"
+
+- name: Create TLS secret {{ secret_ingress_name | default('tls-ingress-custom-ca') }}
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    name: "{{ secret_ingress_name | default('tls-ingress-custom-ca') }}"
+    namespace: openshift-ingress
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "{{ secret_ingress_name | default('tls-ingress-custom-ca') }}"
+        namespace: openshift-ingress
+      data:
+        tls.crt: "{{ wildcard_certificate_b64encoded }}"
+        tls.key: "{{ wildcard_certificate_key_b64encoded }}"
+      type: kubernetes.io/tls
+
+- name: Get OpenShift ingress controller config facts
+  k8s_info:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    api_version: operator.openshift.io/v1
+    kind: IngressController
+    name: default
+    namespace: openshift-ingress-operator
+  register: cluster_default_ingress_controller
+
+- name: Set cluster default ingress controller resource version
+  set_fact: 
+    cluster_default_ingress_controller_resource_version: "{{ item.metadata.resourceVersion }}"
+  loop: "{{ cluster_default_ingress_controller.resources }}"
+  no_log: true
+
+- name: Update default ingress controller to use {{ secret_ingress_name | default('tls-ingress-custom-ca') }}
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    force: true
+    name: default
+    namespace: openshift-ingress-operator
+    definition:
+      apiVersion: operator.openshift.io/v1
+      kind: IngressController
+      metadata:
+        name: default
+        namespace: openshift-ingress-operator
+        resourceVersion: "{{ cluster_default_ingress_controller_resource_version }}"
+      spec:
+        defaultCertificate:
+          name: "{{ secret_ingress_name | default('tls-ingress-custom-ca') }}"
+        endpointPublishingStrategy:
+          loadBalancer:
+            scope: Internal
+          type: LoadBalancerService
+

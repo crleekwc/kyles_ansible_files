@@ -1,0 +1,12 @@
+---
+# defaults file for infrastructure
+
+infrastructure_name: "{{ cluster_name }}-{{ ((cluster_name + base_domain) | hash('sha256'))[-5:] }}"
+
+cluster_domain: "{{ cluster_name }}.{{ base_domain }}"
+
+openshift_install_dir: "{{ ansible_user_dir }}/{{ cluster_domain }}"
+
+allowed_ingress_cidr: "{{ vpc_cidr }}"
+
+user_tags: {}

@@ -1,0 +1,5 @@
+---
+# tasks file for ops_efs_storageclass
+
+- name: Include tasks from playbook
+  include_tasks: efs-storageclass-playbook.yml

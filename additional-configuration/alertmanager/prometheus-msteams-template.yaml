@@ -1,0 +1,134 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: prometheus-msteams
+  annotations:
+    description: "Application used to transform alerts so they can be consumed by MS Teams."
+objects:
+- kind: DeploymentConfig
+  apiVersion: apps.openshift.io/v1
+  metadata:
+    name: prometheus-msteams
+    namespace: msteams
+    labels:
+      app: prometheus-msteams
+      app.kubernetes.io/component: prometheus-msteams
+      app.kubernetes.io/instance: prometheus-msteams
+      app.kubernetes.io/part-of: prometheus-msteams-app
+      app.openshift.io/runtime-namespace: msteams
+      app.openshift.io/runtime-version: latest
+  spec:
+    strategy:
+      type: Rolling
+      rollingParams:
+        updatePeriodSeconds: 1
+        intervalSeconds: 1
+        timeoutSeconds: 600
+        maxUnavailable: 25%
+        maxSurge: 25%
+      resources: {}
+      activeDeadlineSeconds: 21600
+    triggers:
+      - type: ConfigChange
+    replicas: 1
+    revisionHistoryLimit: 10
+    test: false
+    selector:
+      app: prometheus-msteams
+      deploymentconfig: prometheus-msteams
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: prometheus-msteams
+          deploymentconfig: prometheus-msteams
+        annotations:
+          openshift.io/generated-by: OpenShiftWebConsole
+      spec:
+        containers:
+        - env:
+          - name: CONFIG_FILE
+            value: /etc/config/config.yml
+          name: prometheus-msteams
+          image: >-
+            cluster1.ocp.local:8124/prometheusmsteams/prometheus-msteams@sha256:62fe9bc3b07473bd0276966c7c8e7a6b281f411f4249993adf2300c026894a3b
+          ports:
+            - containerPort: 2000
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - mountPath: /etc/config
+            name: config
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: config
+          name: config
+- kind: Route
+  apiVersion: route.openshift.io/v1
+  metadata:
+    name: prometheus-msteams
+    namespace: msteams
+    labels:
+      app: prometheus-msteams
+      app.kubernetes.io/component: prometheus-msteams
+      app.kubernetes.io/instance: prometheus-msteams
+      app.kubernetes.io/part-of: prometheus-msteams-app
+  spec:
+    host: prometheus-msteams-msteams.apps3.cluster1.ocp.local
+    to:
+      kind: Service
+      name: prometheus-msteams
+      weight: 100
+    port:
+      targetPort: 2000-tcp
+    wildcardPolicy: None
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: prometheus-msteams
+    namespace: msteams
+    labels:
+      app: prometheus-msteams
+      app.kubernetes.io/component: prometheus-msteams
+      app.kubernetes.io/instance: prometheus-msteams
+      app.kubernetes.io/part-of: prometheus-msteams-app
+  spec:
+    ports:
+      - name: 2000-tcp
+        protocol: TCP
+        port: 2000
+        targetPort: 2000
+    selector:
+      app: prometheus-msteams
+      deploymentconfig: prometheus-msteams
+    type: ClusterIP
+    sessionAffinity: None
+  status:
+    loadBalancer: {}
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    generation: 1
+    name: prometheus-msteams
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+      from:
+        kind: DockerImage
+        name: cluster1.ocp.local:8124/prometheusmsteams/prometheus-msteams
+      generation: 1
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+

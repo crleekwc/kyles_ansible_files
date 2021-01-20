@@ -1,0 +1,9 @@
+---
+# clusterautoscaler.yml
+
+- name: Create Cluster Auto Scaler resource
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/clusterAutoScaling.j2') }}"
+
