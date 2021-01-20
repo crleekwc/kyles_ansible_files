@@ -1,0 +1,55 @@
+apiVersion: v1
+baseDomain: {{ base_domain }}
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    aws:
+      type: {{ instance_worker_type }}
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform: {}
+  replicas: 3
+metadata:
+  creationTimestamp: null
+  name: {{ cluster_name }}
+networking:
+  clusterNetwork:
+  - cidr: 10.64.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: {{ vpc_cidr }}
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  aws:
+    region: {{ aws_region }}
+    subnets: {{ private_subnets }}
+    userTags:
+      Backup: {{ user_tags['Backup'] }}
+      Cluster: {{ user_tags['Cluster'] }}
+      ECS:Environment: {{ user_tags['Environment'] }}
+      ECS:FismaId: {{ user_tags['FismaId'] }}
+      ECS:Poc: {{ user_tags['POC'] }}
+      ECS:Scheduler:ec2-startstop: {{ user_tags['Scheduler'] }}
+      ECS:ServerFunction: {{ user_tags['ServerFunction'] }}
+      ECS:System: {{ user_tags['System'] }}
+publish: Internal
+pullSecret: '{{ pull_secret }}'
+fips: true
+sshKey: |
+  {{ ssh_public_key | indent(2) }}
+additionalTrustBundle: |
+  {{ registry_ca_trust_bundle | indent(2) }}
+imageContentSources:
+- mirrors:
+  - {{ registry_mirror_url }}
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - {{ registry_mirror_url }}
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev

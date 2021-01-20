@@ -1,0 +1,10 @@
+---
+# efk-logging.yml
+  
+- name: Create EFK component resources
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    src: "{{ item }}"
+  loop: "{{ efk_template_files }}"
+  

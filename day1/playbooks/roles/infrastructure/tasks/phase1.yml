@@ -1,0 +1,78 @@
+---
+
+- name: Create networking components using CloudFormation
+  cloudformation:
+    stack_name: "{{ infrastructure_name }}-networking"
+    template: "{{ role_path }}/files/cloudformation/networking.yaml"
+    template_parameters:
+      ClusterName: "{{ cluster_name }}"
+      InfrastructureName: "{{ infrastructure_name }}"
+      PrivateSubnets: "{{ private_subnets | join(',') }}"
+      VpcId: "{{ vpc_id }}"
+    state: present
+  register: r_cf_networking
+
+- name: Create security components using CloudFormation
+  cloudformation:
+    stack_name: "{{ infrastructure_name }}-security"
+    template: "{{ role_path }}/files/cloudformation/security.yaml"
+    template_parameters:
+      InfrastructureName: "{{ infrastructure_name }}"
+      VpcCidr: "{{ vpc_cidr }}"
+      VpcId: "{{ vpc_id }}"
+      PrivateSubnets: "{{ private_subnets | join(',') }}"
+    state: present
+  register: r_cf_security
+
+# TODO - Use nsupdate Ansible module for below https://docs.ansible.com/ansible/2.9/modules/nsupdate_module.html
+
+- name:  task create DNS CNAME record
+  shell: "{{ lookup('template', 'nsupdate-cname-master-api-bash.j2') }}"
+  args:
+    executable: /bin/bash
+  register: nsupdate_dns_record_create_internal_lb
+  changed_when: nsupdate_dns_record_create_internal_lb is succeeded
+  failed_when: False
+
+- name:  task abort if failure from nsupdate creating CNAME record for internal lb
+  fail:
+    msg: |
+      nsupdate command did not complete successfully
+      Ensure correct DNS CNAME record was created for
+      api.{{ cluster_domain }} and api-int.{{ cluster_domain }}
+      {{ nsupdate_dns_record_create_internal_lb.stdout }}
+  when:
+    - not ( nsupdate_dns_record_create_internal_lb.rc == 0 )
+
+
+- name: Output instructions
+  debug:
+    msg: |
+      Phase 1 of the infrastructure required to deploy OpenShift 4 has finished
+      deploying.
+
+      ##################################################################################
+      ## A DNS CNAME record must be created for records below before running Phase 2. ##
+      ##################################################################################
+
+      Query DNS and verify CNAME records are present:
+
+        Record: {{ master_api_names[0] }}
+        Value: {{ r_cf_networking.stack_outputs.InternalApiLoadBalancerDNSName }}
+        Type: CNAME
+
+        Record: {{ master_api_names[1] }}
+        Value: {{ r_cf_networking.stack_outputs.InternalApiLoadBalancerDNSName }}
+        Type: CNAME
+
+      Add the required tags to the following subnets:
+
+      {% for subnet in private_subnets %}
+        Subnet: {{ subnet }}
+        Tags:
+          - Key: kubernetes.io/cluster/{{ infrastructure_name }}
+            Value: shared
+          - Key: kubernetes.io/role/internal-elb
+            Value: ""
+
+      {% endfor %}

@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost
+  tasks:
+    - include_role:
+        name: infrastructure
+        tasks_from: phase1
+      tags: [infrastructure]

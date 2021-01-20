@@ -1,0 +1,251 @@
+---
+
+- name: Capture OpenShift version
+  command: openshift-install version
+  register: r_capture_openshift_version
+
+- name: Set OpenShift version
+  set_fact:
+    openshift_version: "{{ r_capture_openshift_version.stdout_lines.0 | regex_search('(\\d\\.\\d\\.\\d)') }}"
+
+- name: Split OpenShift version
+  set_fact:
+    openshift_version_major: "{{ openshift_version.split('.')[0] }}"
+    openshift_version_minor: "{{ openshift_version.split('.')[1] }}"
+    openshift_version_zstream: "{{ openshift_version.split('.')[2] }}"
+
+- name: Get RHCOS release data
+  uri:
+    url: https://raw.githubusercontent.com/openshift/installer/release-{{ openshift_version_major }}.{{ openshift_version_minor }}/data/data/rhcos.json
+    return_content: yes
+  register: r_rhcos_release_data
+
+- name: Capture availability zone info
+  aws_az_info: {}
+  register: r_az_info
+
+- name: Set AWS region
+  set_fact:
+    aws_region: "{{ r_az_info.availability_zones.0.region_name }}"
+
+- name: Set RHCOS AMI ID
+  set_fact:
+    rhcos_ami: "{{ r_rhcos_release_data.json.amis[aws_region].hvm }}"
+
+- name: Check for ignition files
+  stat:
+    path: "{{ openshift_install_dir }}/bootstrap.ign"
+  register: r_stat_ignition_files
+
+- block:
+    - name: Create OpenShift installation directory
+      file:
+        path: "{{ openshift_install_dir }}"
+        owner: "{{ ansible_user_uid }}"
+        group: "{{ ansible_user_gid }}"
+        mode: 0755
+        state: directory
+
+    - name: Create OpenShift install-config.yaml
+      template:
+        src: install-config.yaml.j2
+        dest: "{{ openshift_install_dir }}/{{ item }}"
+        owner: "{{ ansible_user_uid }}"
+        group: "{{ ansible_user_gid }}"
+        mode: 0644
+      loop:
+        - install-config.yaml
+        - install-config.backup.yaml
+
+    - name: Generate OpenShift manifests
+      command: openshift-install create manifests
+      args:
+        chdir: "{{ openshift_install_dir }}"
+
+    - name: Find manifests defining control plane machines
+      find:
+        paths: "{{ openshift_install_dir }}/openshift"
+        patterns: "99_openshift-cluster-api_master-machines-*.yaml"
+      register: r_find_manifests_control_plane_machines
+
+    - name: Remove manifests defining control plane machines
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ r_find_manifests_control_plane_machines.files }}"
+
+    - name: Find manifests defining worker machinesets
+      find:
+        paths: "{{ openshift_install_dir }}/openshift"
+        patterns: "99_openshift-cluster-api_worker-machineset-*.yaml"
+      register: r_find_manifests_worker_machinesets
+
+    - name: Add default security group to worker machinesets
+      lineinfile:
+        path: "{{ item.path }}"
+        line: "          - id: {{ aws_default_security_group_id }}"
+        insertafter: "          securityGroups:"
+      loop: "{{ r_find_manifests_worker_machinesets.files }}"
+
+    - name: Read cluster infrastructure configuration
+      slurp:
+        src: "{{ openshift_install_dir }}/manifests/cluster-infrastructure-02-config.yml"
+      register: r_slurp_cluster_infrastructure_config
+
+    - name: Find all manifest files
+      find:
+        paths: "{{ openshift_install_dir }}"
+        file_type: file
+        hidden: yes
+        recurse: yes
+      register: r_find_all_manifest_files
+
+    - name: Replace infrastructure name in manifest files
+      replace:
+        path: "{{ item.path }}"
+        regexp: "{{ r_slurp_cluster_infrastructure_config.content | b64decode | regex_search('infrastructureName: (\\S+)') | regex_replace('infrastructureName: (\\S+)', '\\1') }}"
+        replace: "{{ infrastructure_name }}"
+      loop: "{{ r_find_all_manifest_files.files }}"
+
+    - name: Replace wildcard DNS name in manifest files
+      replace:
+        path: "{{ openshift_install_dir }}/manifests/cluster-ingress-02-config.yml"
+        regexp: "apps.{{ cluster_domain }}"
+        replace: "{{ wildcard_name }}.{{ cluster_domain }}"
+
+    - name: Read cluster DNS config
+      slurp:
+        src: "{{ openshift_install_dir }}/manifests/cluster-dns-02-config.yml"
+      register: r_slurp_dns_config_manifest
+
+    - name: Remove zone management from cluster DNS config
+      copy:
+        content: "{{ r_slurp_dns_config_manifest.content | b64decode | from_yaml | combine({'spec': {'baseDomain': cluster_domain}}, recursive=False) | to_nice_yaml }}"
+        dest: "{{ openshift_install_dir }}/manifests/cluster-dns-02-config.yml"
+
+    - name: Generate OpenShift ignition configs
+      command: openshift-install create ignition-configs
+      args:
+        chdir: "{{ openshift_install_dir }}"
+  when: not r_stat_ignition_files.stat.exists
+
+- name: Create S3 bucket for ignition
+  s3_bucket:
+    name: "{{ cluster_domain | replace('.', '-') }}-ignition"
+    state: present
+
+- name: Upload ignition files to S3
+  aws_s3:
+    bucket: "{{ cluster_domain | replace('.', '-') }}-ignition"
+    object: "{{ item }}"
+    src: "{{ openshift_install_dir }}/{{ item }}"
+    mode: put
+  loop:
+    - bootstrap.ign
+    - master.ign
+    - worker.ign
+
+- name: Capture networking components CloudFormation info
+  cloudformation_info:
+    stack_name: "{{ infrastructure_name }}-networking"
+  register: r_capture_cf_networking
+
+- name: Capture security components CloudFormation info
+  cloudformation_info:
+    stack_name: "{{ infrastructure_name }}-security"
+  register: r_capture_cf_security
+
+- name: Create bootstrap using CloudFormation
+  cloudformation:
+    stack_name: "{{ infrastructure_name }}-bootstrap"
+    template: "{{ role_path }}/files/cloudformation/bootstrap.yaml"
+    template_parameters:
+      InfrastructureName: "{{ infrastructure_name }}"
+      RhcosAmi: "{{ rhcos_ami }}"
+      AllowedBootstrapSshCidr: "{{ allowed_ingress_cidr }}"
+      PrivateSubnet: "{{ private_subnets.0 }}"
+      MasterSecurityGroupId: "{{ r_capture_cf_security.cloudformation[infrastructure_name + '-security'].stack_outputs.MasterSecurityGroupId }}"
+      AWSDefaultSecurityGroupId: "{{ aws_default_security_group_id }}"
+      VpcId: "{{ vpc_id }}"
+      BootstrapIgnitionLocation: "s3://{{ cluster_domain | replace('.', '-') }}-ignition/bootstrap.ign"
+      AutoRegisterELB: "yes"
+      RegisterNlbIpTargetsLambdaArn: "{{ r_capture_cf_networking.cloudformation[infrastructure_name + '-networking'].stack_outputs.RegisterNlbIpTargetsLambda }}"
+      InternalApiTargetGroupArn: "{{ r_capture_cf_networking.cloudformation[infrastructure_name + '-networking'].stack_outputs.InternalApiTargetGroupArn }}"
+      InternalServiceTargetGroupArn: "{{ r_capture_cf_networking.cloudformation[infrastructure_name + '-networking'].stack_outputs.InternalServiceTargetGroupArn }}"
+      AWSTagServerBackup: "{{ user_tags.Backup }}"
+      AWSTagServerCluster: "{{ user_tags.Cluster }}"
+      AWSTagServerFunction: "{{ user_tags.ServerFunction }}"
+      AWSTagSystem: "{{ user_tags.System }}"
+      AWSTagEnvironment: "{{ user_tags.Environment }}"
+      AWSTagFismaId: "{{ user_tags.FismaId }}"
+      AWSTagPOC: "{{ user_tags.POC }}"
+      AWSTagScheduler: "{{ user_tags.Scheduler }}"
+    state: present
+  register: r_cf_bootstrap
+
+- name: Create control plane using CloudFormation
+  cloudformation:
+    stack_name: "{{ infrastructure_name }}-control-plane"
+    template: "{{ role_path }}/files/cloudformation/control_plane.yaml"
+    template_parameters:
+      InfrastructureName: "{{ infrastructure_name }}"
+      RhcosAmi: "{{ rhcos_ami }}"
+      Master0Subnet: "{{ private_subnets.0 }}"
+      Master1Subnet: "{{ private_subnets.1 }}"
+      Master2Subnet: "{{ private_subnets.2 }}"
+      MasterSecurityGroupId: "{{ r_capture_cf_security.cloudformation[infrastructure_name + '-security'].stack_outputs.MasterSecurityGroupId }}"
+      AWSDefaultSecurityGroupId: "{{ aws_default_security_group_id }}"
+      MasterIgnitionLocation: "s3://{{ cluster_domain | replace('.', '-') }}-ignition/master.ign"
+      MasterInstanceProfileName: "{{ r_capture_cf_security.cloudformation[infrastructure_name + '-security'].stack_outputs.MasterInstanceProfile }}"
+      AutoRegisterELB: "yes"
+      RegisterNlbIpTargetsLambdaArn: "{{ r_capture_cf_networking.cloudformation[infrastructure_name + '-networking'].stack_outputs.RegisterNlbIpTargetsLambda }}"
+      InternalApiTargetGroupArn: "{{ r_capture_cf_networking.cloudformation[infrastructure_name + '-networking'].stack_outputs.InternalApiTargetGroupArn }}"
+      InternalServiceTargetGroupArn: "{{ r_capture_cf_networking.cloudformation[infrastructure_name + '-networking'].stack_outputs.InternalServiceTargetGroupArn }}"
+      AWSTagServerBackup: "{{ user_tags.Backup }}"
+      AWSTagServerCluster: "{{ user_tags.Cluster }}"
+      AWSTagServerFunction: "{{ user_tags.ServerFunction }}"
+      AWSTagSystem: "{{ user_tags.System }}"
+      AWSTagEnvironment: "{{ user_tags.Environment }}"
+      AWSTagFismaId: "{{ user_tags.FismaId }}"
+      AWSTagPOC: "{{ user_tags.POC }}"
+      AWSTagScheduler: "{{ user_tags.Scheduler }}"
+    state: present
+  register: r_cf_control_plane
+
+- name:  Create bash script for ingress load balancer
+  template:
+    src: update-ocp4-app-lb-dns-record.sh.j2
+    dest: "{{ ansible_env['HOME'] }}/update-ocp4-app-lb-dns-record.sh"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_uid }}"
+    mode: '0755'
+
+
+- name: Output instructions
+  debug:
+    msg: |
+      Phase 2 of the infrastructure required to deploy OpenShift 4 has finished
+      deploying.
+
+      #########################################################################
+      ## The action items below must be completed before the OpenShift       ##
+      ## cluster will become healthy.                                        ##
+      #########################################################################
+
+      After the bootstrap process is complete and the workers start to come
+      online, a load balancer will be deployed by OpenShift into AWS.
+
+      ++++++Execute bash script using load balancer created by OpenShift+++++++
+
+      Script Operations
+
+      1. Perform updates for DNS CNAME record 
+      2. Perform updates for enabling additional subnets and security groups
+
+      bash script location:
+
+      {{ ansible_env['HOME'] }}/update-ocp4-app-lb-dns-record.sh 
+
+      Ensure the following wildcard DNS CNAME record can be queried
+
+      *.{{ wildcard_name }}.{{ cluster_domain }}

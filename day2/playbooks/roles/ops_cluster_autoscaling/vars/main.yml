@@ -1,0 +1,7 @@
+---
+# vars file for ops_cluster_autoscaling
+
+machine_autoscaler_files:
+  - "{{ role_path }}/templates/clusterMachineScaler-1b.j2"
+  - "{{ role_path }}/templates/clusterMachineScaler-1c.j2"
+  - "{{ role_path }}/templates/clusterMachineScaler-1d.j2"

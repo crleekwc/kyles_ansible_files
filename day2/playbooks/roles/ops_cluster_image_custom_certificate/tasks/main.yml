@@ -1,0 +1,5 @@
+---
+# tasks file for ops_cluster_image_custom_certificate
+
+- name: Include tasks from playbook
+  include_tasks: update-ca-certificates-cluster-image-config.yml

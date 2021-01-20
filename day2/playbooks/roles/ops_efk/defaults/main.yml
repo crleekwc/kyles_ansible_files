@@ -1,0 +1,5 @@
+---
+# defaults file for ops_efk
+
+cluster_name: ""
+base_domain: ""

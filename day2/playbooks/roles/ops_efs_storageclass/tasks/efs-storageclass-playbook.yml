@@ -1,0 +1,53 @@
+---
+# efs-storageclass-playbook.yml
+  
+- name: Create EFS ConfigMap
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/efs-configmap.j2') }}"
+
+- name: Create EFS Provisioner ServiceAccount
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    name: efs-provisioner
+    namespace: default
+    api_version: v1
+    kind: serviceaccount
+    state: present
+    
+- name: Create EFS ClusterRole 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/efs-clusterrole.yaml') }}"
+
+- name: Create EFS ClusterRoleBinding
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/efs-clusterrolebinding.yaml') }}"
+
+- name: Create EFS Role
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/efs-role.yaml') }}"
+      
+- name: Create EFS RoleBinding 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/efs-rolebinding.yaml') }}"
+
+- name: Create EFS StorageClass
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/efs-storageclass.yaml') }}"
+
+- name: Create EFS Provisioner
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/efs-provisioner.j2') }}"

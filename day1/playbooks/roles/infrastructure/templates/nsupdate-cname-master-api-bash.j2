@@ -1,0 +1,23 @@
+{% if dns_server is defined and r_cf_networking.stack_outputs.InternalApiLoadBalancerDNSName is defined and master_api_names|length %}
+
+
+for CNAME in {{ master_api_names[0] }} {{ master_api_names[1] }}; do
+/usr/bin/cat <<EOF | /usr/bin/nsupdate
+server {{ dns_server }}
+update delete $CNAME A
+update add $CNAME 300 cname {{ r_cf_networking.stack_outputs.InternalApiLoadBalancerDNSName }}
+;show
+send
+EOF
+done
+
+if [[ $? == 0 ]]; then
+exit 0
+else
+exit 1
+fi
+
+{% else %}
+exit 1
+
+{% endif %}

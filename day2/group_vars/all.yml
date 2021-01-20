@@ -1,0 +1,6 @@
+cluster_name: cluster1
+base_domain: ocp.local
+infrastructure_name: "{{ cluster_name }}-{{ ((cluster_name + base_domain) | hash('sha256'))[-5:] }}"
+efs_hostname: efs-ocp4
+efs_fqdn: "{{ efs_hostname }}.{{ cluster_name }}.{{ base_domain }}"
+efs_filesystem_id: "{{ efs_hostname }}"

@@ -1,0 +1,5 @@
+---
+# defaults file for ops_machineset
+
+cluster_name: ""
+base_domain: ""
