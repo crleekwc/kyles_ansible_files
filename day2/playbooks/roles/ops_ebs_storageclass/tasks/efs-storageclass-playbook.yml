@@ -1,0 +1,53 @@
+---
+# ebs-storageclass-playbook.yml
+  
+- name: Create EBS ConfigMap
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/ebs-configmap.j2') }}"
+
+- name: Create EBS Provisioner ServiceAccount
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    name: ebs-provisioner
+    namespace: default
+    api_version: v1
+    kind: serviceaccount
+    state: present
+    
+- name: Create EBS ClusterRole 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/ebs-clusterrole.yaml') }}"
+
+- name: Create EBS ClusterRoleBinding
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/ebs-clusterrolebinding.yaml') }}"
+
+# - name: Create EBS Role
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+#     state: present
+#     definition: "{{ lookup('file', '../templates/ebs-role.yaml') }}"
+      
+# - name: Create EBS RoleBinding 
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+#     state: present
+#     definition: "{{ lookup('file', '../templates/ebs-rolebinding.yaml') }}"
+
+- name: Create EBS StorageClass
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/ebs-storageclass.yaml') }}"
+
+# - name: Create EBS Provisioner
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+#     state: present
+#     definition: "{{ lookup('template', '../templates/ebs-provisioner.j2') }}"
