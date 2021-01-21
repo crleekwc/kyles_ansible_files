@@ -1,0 +1,12 @@
+---
+- name: Create EBS ConfigMap
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/ebs-configmap.j2') }}"
+
+- name: Create EBS StorageClass
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/ebs-storageclass.yaml') }}"
