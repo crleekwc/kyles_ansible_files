@@ -1,9 +1,9 @@
 ---
 - hosts: localhost
   roles:
-    - ops_cluster_image_custom_certificate
-    - ops_cluster_ingress_custom_certificate
+    # - ops_cluster_image_custom_certificate
+    # - ops_cluster_ingress_custom_certificate
     - ops_machineset
     - ops_cluster_autoscaling
-    - ops_efs_storageclass
+    - ops_ebs_storageclass
     - ops_efk

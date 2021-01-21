@@ -1,6 +1,3 @@
 cluster_name: ocp4-fee54
 base_domain: sbx2.dso.ncps.us-cert.gov
 infrastructure_name: "{{ cluster_name }}-{{ ((cluster_name + base_domain) | hash('sha256'))[-5:] }}"
-ebs_hostname: ebs-ocp4
-ebs_fqdn: "{{ ebs_hostname }}.{{ cluster_name }}.{{ base_domain }}"
-# efs_filesystem_id: "{{ ebs_hostname }}"
