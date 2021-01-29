@@ -1,7 +1,4 @@
 ---
 # defaults file for ops_efs_storageclass
-
 cluster_name: ""
 base_domain: ""
-efs_hostname: ""
-efs_filesystem_id: "{{ efs_hostname }}"

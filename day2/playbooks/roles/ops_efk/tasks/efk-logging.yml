@@ -3,7 +3,7 @@
   
 - name: Create EFK component resources
   k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
     state: present
     src: "{{ item }}"
   loop: "{{ efk_template_files }}"

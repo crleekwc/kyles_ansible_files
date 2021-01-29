@@ -6,5 +6,5 @@ metadata:
 spec:
   channel: "4.6" 
   name: cluster-logging
-  source: redhat-operators 
+  source: my-operator-catalog
   sourceNamespace: openshift-marketplace
