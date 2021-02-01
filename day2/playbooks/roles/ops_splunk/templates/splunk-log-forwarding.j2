@@ -1,0 +1,32 @@
+apiVersion: "logging.openshift.io/v1alpha1"
+kind: "LogForwarding"
+metadata:
+  name: instance 
+  namespace: openshift-logging
+spec:
+  disableDefaultForwarding: true 
+  outputs: 
+   - name: elasticsearch 
+     type: "elasticsearch"  
+     endpoint: elasticsearch.openshift-logging.svc:9200 
+     secret: 
+        name: fluentd
+   - name: fluentd-forward
+     type: "forward"
+     endpoint: {{ fluentd_endpoint }} # Example: https://fluentd-forward.svc:24224
+     secret:
+        name: fluentd-forward
+  pipelines: 
+   - name: container-logs 
+     inputSource: logs.app 
+     outputRefs: 
+     - elasticsearch
+     - fluentd-forward
+   - name: infra-logs
+     inputSource: logs.infra
+     outputRefs:
+     - elasticsearch
+   - name: audit-logs
+     inputSource: logs.audit
+     outputRefs:
+     - fluentd-forward

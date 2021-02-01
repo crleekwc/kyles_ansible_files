@@ -1,0 +1,513 @@
+2021-01-26 19:35:43,901 p=76209 u=krafaels n=ansible | PLAY [localhost] ********************************************************************************************
+2021-01-26 19:35:43,923 p=76209 u=krafaels n=ansible | TASK [Gathering Facts] **************************************************************************************
+2021-01-26 19:35:43,923 p=76209 u=krafaels n=ansible | Tuesday 26 January 2021  19:35:43 -0600 (0:00:00.053)       0:00:00.053 ******* 
+2021-01-26 19:36:16,602 p=76220 u=krafaels n=ansible | [WARNING]: Unhandled error in Python interpreter discovery for host localhost: Failed to connect to the host
+via ssh: ssh: connect to host localhost port 22: Connection refused
+
+2021-01-26 19:36:48,993 p=76209 u=krafaels n=ansible | fatal: [localhost]: UNREACHABLE! => {
+    "changed": false,
+    "unreachable": true
+}
+
+MSG:
+
+Data could not be sent to remote host "localhost". Make sure this host can be reached over ssh: ssh: connect to host localhost port 22: Connection refused
+
+
+2021-01-26 19:36:48,996 p=76209 u=krafaels n=ansible | PLAY RECAP **************************************************************************************************
+2021-01-26 19:36:48,996 p=76209 u=krafaels n=ansible | localhost                  : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2021-01-26 19:36:48,997 p=76209 u=krafaels n=ansible | Tuesday 26 January 2021  19:36:48 -0600 (0:01:05.074)       0:01:05.127 ******* 
+2021-01-26 19:36:48,998 p=76209 u=krafaels n=ansible | =============================================================================== 
+2021-01-26 19:36:48,998 p=76209 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 1 minutes, 5 seconds
+2021-01-26 19:38:26,153 p=76832 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does
+not match 'all'
+
+2021-01-26 19:38:26,379 p=76832 u=krafaels n=ansible | PLAY [localhost] ********************************************************************************************
+2021-01-26 19:38:26,390 p=76832 u=krafaels n=ansible | TASK [Gathering Facts] **************************************************************************************
+2021-01-26 19:38:26,390 p=76832 u=krafaels n=ansible | Tuesday 26 January 2021  19:38:26 -0600 (0:00:00.023)       0:00:00.023 ******* 
+2021-01-26 19:38:27,675 p=76832 u=krafaels n=ansible | ok: [localhost]
+2021-01-26 19:38:27,703 p=76832 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ****************************************************************
+2021-01-26 19:38:27,703 p=76832 u=krafaels n=ansible | Tuesday 26 January 2021  19:38:27 -0600 (0:00:01.312)       0:00:01.336 ******* 
+2021-01-26 19:38:27,791 p=76832 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-01-26 19:38:27,806 p=76832 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] *************************************************************
+2021-01-26 19:38:27,806 p=76832 u=krafaels n=ansible | Tuesday 26 January 2021  19:38:27 -0600 (0:00:00.103)       0:00:01.439 ******* 
+2021-01-26 19:38:31,433 p=76832 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-01-26 19:38:34,719 p=76832 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-01-26 19:38:35,885 p=76832 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-01-26 19:38:36,979 p=76832 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-01-26 19:38:40,306 p=76832 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-01-26 19:38:41,420 p=76832 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-01-26 19:38:42,510 p=76832 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-01-26 19:38:42,518 p=76832 u=krafaels n=ansible | PLAY RECAP **************************************************************************************************
+2021-01-26 19:38:42,519 p=76832 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-26 19:38:42,519 p=76832 u=krafaels n=ansible | Tuesday 26 January 2021  19:38:42 -0600 (0:00:14.712)       0:00:16.152 ******* 
+2021-01-26 19:38:42,519 p=76832 u=krafaels n=ansible | =============================================================================== 
+2021-01-26 19:38:42,519 p=76832 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 16 seconds
+2021-01-27 13:08:16,574 p=151795 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-01-27 13:08:17,467 p=151795 u=krafaels n=ansible | PLAY [localhost] **********************************************************************************************************************************
+2021-01-27 13:08:17,491 p=151795 u=krafaels n=ansible | TASK [Gathering Facts] ****************************************************************************************************************************
+2021-01-27 13:08:17,491 p=151795 u=krafaels n=ansible | Wednesday 27 January 2021  13:08:17 -0600 (0:00:00.045)       0:00:00.045 ***** 
+2021-01-27 13:08:18,690 p=151795 u=krafaels n=ansible | ok: [localhost]
+2021-01-27 13:08:18,713 p=151795 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ******************************************************************************************************
+2021-01-27 13:08:18,713 p=151795 u=krafaels n=ansible | Wednesday 27 January 2021  13:08:18 -0600 (0:00:01.222)       0:00:01.267 ***** 
+2021-01-27 13:08:18,808 p=151795 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-01-27 13:08:18,825 p=151795 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] ***************************************************************************************************
+2021-01-27 13:08:18,826 p=151795 u=krafaels n=ansible | Wednesday 27 January 2021  13:08:18 -0600 (0:00:00.112)       0:00:01.380 ***** 
+2021-01-27 13:08:22,346 p=151795 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-01-27 13:08:27,494 p=151795 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-01-27 13:08:29,016 p=151795 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-01-27 13:08:30,737 p=151795 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-01-27 13:08:35,686 p=151795 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-01-27 13:08:37,469 p=151795 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-01-27 13:08:39,155 p=151795 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-01-27 13:08:39,166 p=151795 u=krafaels n=ansible | PLAY RECAP ****************************************************************************************************************************************
+2021-01-27 13:08:39,166 p=151795 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-27 13:08:39,166 p=151795 u=krafaels n=ansible | Wednesday 27 January 2021  13:08:39 -0600 (0:00:20.340)       0:00:21.720 ***** 
+2021-01-27 13:08:39,166 p=151795 u=krafaels n=ansible | =============================================================================== 
+2021-01-27 13:08:39,167 p=151795 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 21 seconds
+2021-01-27 16:12:04,734 p=191677 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+
+2021-01-27 16:12:04,954 p=191677 u=krafaels n=ansible | PLAY [localhost] *******************************************************************************************************
+2021-01-27 16:12:04,964 p=191677 u=krafaels n=ansible | TASK [Gathering Facts] *************************************************************************************************
+2021-01-27 16:12:04,964 p=191677 u=krafaels n=ansible | Wednesday 27 January 2021  16:12:04 -0600 (0:00:00.023)       0:00:00.023 ***** 
+2021-01-27 16:12:06,134 p=191677 u=krafaels n=ansible | ok: [localhost]
+2021-01-27 16:12:06,156 p=191677 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ***************************************************************************
+2021-01-27 16:12:06,157 p=191677 u=krafaels n=ansible | Wednesday 27 January 2021  16:12:06 -0600 (0:00:01.192)       0:00:01.215 ***** 
+2021-01-27 16:12:06,223 p=191677 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-01-27 16:12:06,238 p=191677 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] ************************************************************************
+2021-01-27 16:12:06,238 p=191677 u=krafaels n=ansible | Wednesday 27 January 2021  16:12:06 -0600 (0:00:00.081)       0:00:01.297 ***** 
+2021-01-27 16:12:08,950 p=191677 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-01-27 16:12:14,480 p=191677 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-01-27 16:12:16,315 p=191677 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-01-27 16:12:18,177 p=191677 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-01-27 16:12:23,244 p=191677 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-01-27 16:12:24,874 p=191677 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-01-27 16:12:26,910 p=191677 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-01-27 16:12:26,921 p=191677 u=krafaels n=ansible | PLAY RECAP *************************************************************************************************************
+2021-01-27 16:12:26,922 p=191677 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-27 16:12:26,922 p=191677 u=krafaels n=ansible | Wednesday 27 January 2021  16:12:26 -0600 (0:00:20.683)       0:00:21.980 ***** 
+2021-01-27 16:12:26,922 p=191677 u=krafaels n=ansible | =============================================================================== 
+2021-01-27 16:12:26,922 p=191677 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 21 seconds
+2021-01-28 07:45:14,144 p=377232 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-01-28 07:45:14,384 p=377232 u=krafaels n=ansible | PLAY [localhost] *******************************************************************************************************************************
+2021-01-28 07:45:14,401 p=377232 u=krafaels n=ansible | TASK [Gathering Facts] *************************************************************************************************************************
+2021-01-28 07:45:14,401 p=377232 u=krafaels n=ansible | Thursday 28 January 2021  07:45:14 -0600 (0:00:00.030)       0:00:00.030 ****** 
+2021-01-28 07:45:15,535 p=377232 u=krafaels n=ansible | ok: [localhost]
+2021-01-28 07:45:15,559 p=377232 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ***************************************************************************************************
+2021-01-28 07:45:15,559 p=377232 u=krafaels n=ansible | Thursday 28 January 2021  07:45:15 -0600 (0:00:01.157)       0:00:01.187 ****** 
+2021-01-28 07:45:15,626 p=377232 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-01-28 07:45:15,642 p=377232 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] ************************************************************************************************
+2021-01-28 07:45:15,643 p=377232 u=krafaels n=ansible | Thursday 28 January 2021  07:45:15 -0600 (0:00:00.083)       0:00:01.271 ****** 
+2021-01-28 07:45:17,638 p=377232 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-01-28 07:45:22,360 p=377232 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-01-28 07:45:24,247 p=377232 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-01-28 07:45:26,975 p=377232 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-01-28 07:45:32,167 p=377232 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-01-28 07:45:34,400 p=377232 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-01-28 07:45:35,644 p=377232 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-01-28 07:45:35,658 p=377232 u=krafaels n=ansible | PLAY RECAP *************************************************************************************************************************************
+2021-01-28 07:45:35,658 p=377232 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-28 07:45:35,659 p=377232 u=krafaels n=ansible | Thursday 28 January 2021  07:45:35 -0600 (0:00:20.016)       0:00:21.287 ****** 
+2021-01-28 07:45:35,659 p=377232 u=krafaels n=ansible | =============================================================================== 
+2021-01-28 07:45:35,659 p=377232 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 21 seconds
+2021-01-28 11:17:07,581 p=431586 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not
+match 'all'
+
+2021-01-28 11:17:07,854 p=431586 u=krafaels n=ansible | PLAY [localhost] **************************************************************************************************
+2021-01-28 11:17:07,865 p=431586 u=krafaels n=ansible | TASK [Gathering Facts] ********************************************************************************************
+2021-01-28 11:17:07,865 p=431586 u=krafaels n=ansible | Thursday 28 January 2021  11:17:07 -0600 (0:00:00.024)       0:00:00.024 ****** 
+2021-01-28 11:17:09,267 p=431586 u=krafaels n=ansible | ok: [localhost]
+2021-01-28 11:17:09,295 p=431586 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Include tasks from playbook] *********************************************************
+2021-01-28 11:17:09,296 p=431586 u=krafaels n=ansible | Thursday 28 January 2021  11:17:09 -0600 (0:00:01.430)       0:00:01.454 ****** 
+2021-01-28 11:17:09,372 p=431586 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_ebs_storageclass/tasks/ebs-storageclass.yml for localhost
+2021-01-28 11:17:09,392 p=431586 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Create EBS ConfigMap] ****************************************************************
+2021-01-28 11:17:09,392 p=431586 u=krafaels n=ansible | Thursday 28 January 2021  11:17:09 -0600 (0:00:00.096)       0:00:01.551 ****** 
+2021-01-28 11:17:10,378 p=431586 u=krafaels n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: kubernetes.config.config_exception.ConfigException: Invalid kube-config file. No configuration found.
+2021-01-28 11:17:10,378 p=431586 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {
+    "changed": false,
+    "rc": 1
+}
+
+MSG:
+
+MODULE FAILURE
+See stdout/stderr for the exact error
+
+
+MODULE_STDERR:
+
+Traceback (most recent call last):
+  File "<stdin>", line 102, in <module>
+  File "<stdin>", line 94, in _ansiballz_main
+  File "<stdin>", line 40, in invoke_module
+  File "/usr/lib64/python3.6/runpy.py", line 205, in run_module
+    return _run_module_code(code, init_globals, run_name, mod_spec)
+  File "/usr/lib64/python3.6/runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "/usr/lib64/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/tmp/ansible_k8s_payload_yvfvbgtn/ansible_k8s_payload.zip/ansible/modules/clustering/k8s/k8s.py", line 279, in <module>
+  File "/tmp/ansible_k8s_payload_yvfvbgtn/ansible_k8s_payload.zip/ansible/modules/clustering/k8s/k8s.py", line 275, in main
+  File "/tmp/ansible_k8s_payload_yvfvbgtn/ansible_k8s_payload.zip/ansible/module_utils/k8s/raw.py", line 171, in execute_module
+  File "/tmp/ansible_k8s_payload_yvfvbgtn/ansible_k8s_payload.zip/ansible/module_utils/k8s/common.py", line 182, in get_api_client
+  File "/usr/local/lib/python3.6/site-packages/kubernetes/config/kube_config.py", line 739, in load_kube_config
+    persist_config=persist_config)
+  File "/usr/local/lib/python3.6/site-packages/kubernetes/config/kube_config.py", line 701, in _get_kube_config_loader_for_yaml_file
+    'Invalid kube-config file. '
+kubernetes.config.config_exception.ConfigException: Invalid kube-config file. No configuration found.
+
+
+2021-01-28 11:17:10,380 p=431586 u=krafaels n=ansible | PLAY RECAP ********************************************************************************************************
+2021-01-28 11:17:10,380 p=431586 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-28 11:17:10,380 p=431586 u=krafaels n=ansible | Thursday 28 January 2021  11:17:10 -0600 (0:00:00.987)       0:00:02.539 ****** 
+2021-01-28 11:17:10,380 p=431586 u=krafaels n=ansible | =============================================================================== 
+2021-01-28 11:17:10,380 p=431586 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+2021-01-28 11:18:11,286 p=431972 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not
+match 'all'
+
+2021-01-28 11:18:11,530 p=431972 u=krafaels n=ansible | PLAY [localhost] **************************************************************************************************
+2021-01-28 11:18:11,598 p=431972 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Include tasks from playbook] *********************************************************
+2021-01-28 11:18:11,599 p=431972 u=krafaels n=ansible | Thursday 28 January 2021  11:18:11 -0600 (0:00:00.082)       0:00:00.082 ****** 
+2021-01-28 11:18:11,681 p=431972 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_ebs_storageclass/tasks/ebs-storageclass.yml for localhost
+2021-01-28 11:18:11,699 p=431972 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Create EBS ConfigMap] ****************************************************************
+2021-01-28 11:18:11,699 p=431972 u=krafaels n=ansible | Thursday 28 January 2021  11:18:11 -0600 (0:00:00.100)       0:00:00.183 ****** 
+2021-01-28 11:18:16,349 p=431972 u=krafaels n=ansible | changed: [localhost]
+2021-01-28 11:18:16,372 p=431972 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Create EBS StorageClass] *************************************************************
+2021-01-28 11:18:16,372 p=431972 u=krafaels n=ansible | Thursday 28 January 2021  11:18:16 -0600 (0:00:04.673)       0:00:04.856 ****** 
+2021-01-28 11:18:17,769 p=431972 u=krafaels n=ansible | changed: [localhost]
+2021-01-28 11:18:17,791 p=431972 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] **********************************************************************
+2021-01-28 11:18:17,792 p=431972 u=krafaels n=ansible | Thursday 28 January 2021  11:18:17 -0600 (0:00:01.419)       0:00:06.276 ****** 
+2021-01-28 11:18:17,826 p=431972 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-01-28 11:18:17,845 p=431972 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] *******************************************************************
+2021-01-28 11:18:17,845 p=431972 u=krafaels n=ansible | Thursday 28 January 2021  11:18:17 -0600 (0:00:00.053)       0:00:06.329 ****** 
+2021-01-28 11:18:20,977 p=431972 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-01-28 11:18:25,797 p=431972 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-01-28 11:18:27,110 p=431972 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-01-28 11:18:29,146 p=431972 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-01-28 11:18:33,408 p=431972 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-01-28 11:18:34,881 p=431972 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-01-28 11:18:36,501 p=431972 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-01-28 11:18:36,513 p=431972 u=krafaels n=ansible | PLAY RECAP ********************************************************************************************************
+2021-01-28 11:18:36,514 p=431972 u=krafaels n=ansible | localhost                  : ok=4    changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-28 11:18:36,514 p=431972 u=krafaels n=ansible | Thursday 28 January 2021  11:18:36 -0600 (0:00:18.668)       0:00:24.998 ****** 
+2021-01-28 11:18:36,514 p=431972 u=krafaels n=ansible | =============================================================================== 
+2021-01-28 11:18:36,514 p=431972 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 24 seconds
+2021-01-28 11:31:22,151 p=435195 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-01-28 11:31:22,404 p=435195 u=krafaels n=ansible | PLAY [localhost] ****************************************************************************************************************************
+2021-01-28 11:31:22,421 p=435195 u=krafaels n=ansible | TASK [Gathering Facts] **********************************************************************************************************************
+2021-01-28 11:31:22,421 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:22 -0600 (0:00:00.033)       0:00:00.033 ****** 
+2021-01-28 11:31:23,479 p=435195 u=krafaels n=ansible | ok: [localhost]
+2021-01-28 11:31:23,506 p=435195 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Include tasks from playbook] ***********************************************************************************
+2021-01-28 11:31:23,506 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:23 -0600 (0:00:01.085)       0:00:01.118 ****** 
+2021-01-28 11:31:23,585 p=435195 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_ebs_storageclass/tasks/ebs-storageclass.yml for localhost
+2021-01-28 11:31:23,602 p=435195 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Create EBS ConfigMap] ******************************************************************************************
+2021-01-28 11:31:23,602 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:23 -0600 (0:00:00.095)       0:00:01.214 ****** 
+2021-01-28 11:31:31,580 p=435195 u=krafaels n=ansible | ok: [localhost]
+2021-01-28 11:31:31,604 p=435195 u=krafaels n=ansible | TASK [ops_ebs_storageclass : Create EBS StorageClass] ***************************************************************************************
+2021-01-28 11:31:31,604 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:31 -0600 (0:00:08.001)       0:00:09.216 ****** 
+2021-01-28 11:31:33,833 p=435195 u=krafaels n=ansible | ok: [localhost]
+2021-01-28 11:31:33,855 p=435195 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ************************************************************************************************
+2021-01-28 11:31:33,856 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:33 -0600 (0:00:02.251)       0:00:11.468 ****** 
+2021-01-28 11:31:33,890 p=435195 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-01-28 11:31:33,909 p=435195 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] *********************************************************************************************
+2021-01-28 11:31:33,909 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:33 -0600 (0:00:00.053)       0:00:11.522 ****** 
+2021-01-28 11:31:36,856 p=435195 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-01-28 11:31:41,381 p=435195 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-01-28 11:31:43,125 p=435195 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-01-28 11:31:44,899 p=435195 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-01-28 11:31:48,747 p=435195 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-01-28 11:31:49,969 p=435195 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-01-28 11:31:51,826 p=435195 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-01-28 11:31:51,839 p=435195 u=krafaels n=ansible | PLAY RECAP **********************************************************************************************************************************
+2021-01-28 11:31:51,839 p=435195 u=krafaels n=ansible | localhost                  : ok=5    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-01-28 11:31:51,840 p=435195 u=krafaels n=ansible | Thursday 28 January 2021  11:31:51 -0600 (0:00:17.930)       0:00:29.452 ****** 
+2021-01-28 11:31:51,840 p=435195 u=krafaels n=ansible | =============================================================================== 
+2021-01-28 11:31:51,840 p=435195 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 29 seconds
+2021-02-01 12:24:27,876 p=81174 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-01 12:24:28,123 p=81174 u=krafaels n=ansible | PLAY [localhost] ***************************************************************************************************************************************************************************
+2021-02-01 12:24:28,134 p=81174 u=krafaels n=ansible | TASK [Gathering Facts] *********************************************************************************************************************************************************************
+2021-02-01 12:24:28,134 p=81174 u=krafaels n=ansible | Monday 01 February 2021  12:24:28 -0600 (0:00:00.024)       0:00:00.024 ******* 
+2021-02-01 12:24:29,598 p=81174 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:24:29,625 p=81174 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ****************************************************************************************************************************************
+2021-02-01 12:24:29,626 p=81174 u=krafaels n=ansible | Monday 01 February 2021  12:24:29 -0600 (0:00:01.491)       0:00:01.515 ******* 
+2021-02-01 12:24:29,707 p=81174 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-01 12:24:29,724 p=81174 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] ***********************************************************************************************************************
+2021-02-01 12:24:29,724 p=81174 u=krafaels n=ansible | Monday 01 February 2021  12:24:29 -0600 (0:00:00.098)       0:00:01.614 ******* 
+2021-02-01 12:24:30,261 p=81174 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:24:30,281 p=81174 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *********************************************************************************************************************************
+2021-02-01 12:24:30,281 p=81174 u=krafaels n=ansible | Monday 01 February 2021  12:24:30 -0600 (0:00:00.557)       0:00:02.171 ******* 
+2021-02-01 12:24:30,495 p=81174 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:24:30,511 p=81174 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***************************************************************************************************************************************
+2021-02-01 12:24:30,512 p=81174 u=krafaels n=ansible | Monday 01 February 2021  12:24:30 -0600 (0:00:00.230)       0:00:02.401 ******* 
+2021-02-01 12:24:32,701 p=81174 u=krafaels n=ansible | An exception occurred during task execution. To see the full traceback, use -vvv. The error was: kubernetes.config.config_exception.ConfigException: Invalid kube-config file. No configuration found.
+2021-02-01 12:24:32,701 p=81174 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {
+    "changed": false,
+    "rc": 1
+}
+
+MSG:
+
+MODULE FAILURE
+See stdout/stderr for the exact error
+
+
+MODULE_STDERR:
+
+Traceback (most recent call last):
+  File "<stdin>", line 102, in <module>
+  File "<stdin>", line 94, in _ansiballz_main
+  File "<stdin>", line 40, in invoke_module
+  File "/usr/lib64/python3.6/runpy.py", line 205, in run_module
+    return _run_module_code(code, init_globals, run_name, mod_spec)
+  File "/usr/lib64/python3.6/runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "/usr/lib64/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/tmp/ansible_k8s_payload_9owt7mri/ansible_k8s_payload.zip/ansible/modules/clustering/k8s/k8s.py", line 279, in <module>
+  File "/tmp/ansible_k8s_payload_9owt7mri/ansible_k8s_payload.zip/ansible/modules/clustering/k8s/k8s.py", line 275, in main
+  File "/tmp/ansible_k8s_payload_9owt7mri/ansible_k8s_payload.zip/ansible/module_utils/k8s/raw.py", line 171, in execute_module
+  File "/tmp/ansible_k8s_payload_9owt7mri/ansible_k8s_payload.zip/ansible/module_utils/k8s/common.py", line 182, in get_api_client
+  File "/usr/local/lib/python3.6/site-packages/kubernetes/config/kube_config.py", line 739, in load_kube_config
+    persist_config=persist_config)
+  File "/usr/local/lib/python3.6/site-packages/kubernetes/config/kube_config.py", line 701, in _get_kube_config_loader_for_yaml_file
+    'Invalid kube-config file. '
+kubernetes.config.config_exception.ConfigException: Invalid kube-config file. No configuration found.
+
+
+2021-02-01 12:24:32,703 p=81174 u=krafaels n=ansible | PLAY RECAP *********************************************************************************************************************************************************************************
+2021-02-01 12:24:32,703 p=81174 u=krafaels n=ansible | localhost                  : ok=4    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-01 12:24:32,703 p=81174 u=krafaels n=ansible | Monday 01 February 2021  12:24:32 -0600 (0:00:02.191)       0:00:04.593 ******* 
+2021-02-01 12:24:32,703 p=81174 u=krafaels n=ansible | =============================================================================== 
+2021-02-01 12:24:32,703 p=81174 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
+2021-02-01 12:26:30,771 p=81892 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-01 12:26:31,030 p=81892 u=krafaels n=ansible | PLAY [localhost] ***************************************************************************************************************************************************************************
+2021-02-01 12:26:31,076 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ****************************************************************************************************************************************
+2021-02-01 12:26:31,076 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:31 -0600 (0:00:00.062)       0:00:00.062 ******* 
+2021-02-01 12:26:31,144 p=81892 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-01 12:26:31,161 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] ***********************************************************************************************************************
+2021-02-01 12:26:31,162 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:31 -0600 (0:00:00.085)       0:00:00.147 ******* 
+2021-02-01 12:26:31,755 p=81892 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:26:31,776 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *********************************************************************************************************************************
+2021-02-01 12:26:31,776 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:31 -0600 (0:00:00.614)       0:00:00.762 ******* 
+2021-02-01 12:26:32,004 p=81892 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:26:32,022 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***************************************************************************************************************************************
+2021-02-01 12:26:32,022 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:32 -0600 (0:00:00.245)       0:00:01.008 ******* 
+2021-02-01 12:26:33,571 p=81892 u=krafaels n=ansible | changed: [localhost]
+2021-02-01 12:26:33,591 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for .conf] *********************************************************************************************************************************
+2021-02-01 12:26:33,591 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:33 -0600 (0:00:01.568)       0:00:02.577 ******* 
+2021-02-01 12:26:34,031 p=81892 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:26:34,050 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Set chronyd conf base64 encoded] ************************************************************************************************************************************
+2021-02-01 12:26:34,050 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:34 -0600 (0:00:00.458)       0:00:03.036 ******* 
+2021-02-01 12:26:34,282 p=81892 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:26:34,302 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***************************************************************************************************************************************
+2021-02-01 12:26:34,302 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:34 -0600 (0:00:00.251)       0:00:03.287 ******* 
+2021-02-01 12:26:35,746 p=81892 u=krafaels n=ansible | changed: [localhost]
+2021-02-01 12:26:35,765 p=81892 u=krafaels n=ansible | TASK [ops_machineset : Set machine config role master state] *******************************************************************************************************************************
+2021-02-01 12:26:35,766 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:35 -0600 (0:00:01.463)       0:00:04.751 ******* 
+2021-02-01 12:26:35,781 p=81892 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:26:35,782 p=81892 u=krafaels n=ansible | PLAY RECAP *********************************************************************************************************************************************************************************
+2021-02-01 12:26:35,783 p=81892 u=krafaels n=ansible | localhost                  : ok=8    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-01 12:26:35,783 p=81892 u=krafaels n=ansible | Monday 01 February 2021  12:26:35 -0600 (0:00:00.017)       0:00:04.768 ******* 
+2021-02-01 12:26:35,783 p=81892 u=krafaels n=ansible | =============================================================================== 
+2021-02-01 12:26:35,783 p=81892 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
+2021-02-01 12:29:15,630 p=82606 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-01 12:29:15,849 p=82606 u=krafaels n=ansible | PLAY [localhost] ***************************************************************************************************************************************************************************
+2021-02-01 12:29:15,896 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ****************************************************************************************************************************************
+2021-02-01 12:29:15,896 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:15 -0600 (0:00:00.060)       0:00:00.060 ******* 
+2021-02-01 12:29:15,968 p=82606 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-01 12:29:15,984 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] ***********************************************************************************************************************
+2021-02-01 12:29:15,984 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:15 -0600 (0:00:00.087)       0:00:00.148 ******* 
+2021-02-01 12:29:16,449 p=82606 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:29:16,469 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *********************************************************************************************************************************
+2021-02-01 12:29:16,469 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:16 -0600 (0:00:00.484)       0:00:00.633 ******* 
+2021-02-01 12:29:16,679 p=82606 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:29:16,695 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***************************************************************************************************************************************
+2021-02-01 12:29:16,695 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:16 -0600 (0:00:00.226)       0:00:00.859 ******* 
+2021-02-01 12:29:18,597 p=82606 u=krafaels n=ansible | changed: [localhost]
+2021-02-01 12:29:18,619 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for .conf] *********************************************************************************************************************************
+2021-02-01 12:29:18,619 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:18 -0600 (0:00:01.924)       0:00:02.783 ******* 
+2021-02-01 12:29:18,987 p=82606 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:29:19,004 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Set chronyd conf base64 encoded] ************************************************************************************************************************************
+2021-02-01 12:29:19,004 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:19 -0600 (0:00:00.384)       0:00:03.168 ******* 
+2021-02-01 12:29:19,211 p=82606 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:29:19,226 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***************************************************************************************************************************************
+2021-02-01 12:29:19,226 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:19 -0600 (0:00:00.222)       0:00:03.390 ******* 
+2021-02-01 12:29:21,544 p=82606 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:29:21,567 p=82606 u=krafaels n=ansible | TASK [ops_machineset : Set machine config role master state] *******************************************************************************************************************************
+2021-02-01 12:29:21,567 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:21 -0600 (0:00:02.341)       0:00:05.731 ******* 
+2021-02-01 12:29:21,580 p=82606 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 12:29:21,583 p=82606 u=krafaels n=ansible | PLAY RECAP *********************************************************************************************************************************************************************************
+2021-02-01 12:29:21,583 p=82606 u=krafaels n=ansible | localhost                  : ok=8    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-01 12:29:21,583 p=82606 u=krafaels n=ansible | Monday 01 February 2021  12:29:21 -0600 (0:00:00.015)       0:00:05.747 ******* 
+2021-02-01 12:29:21,583 p=82606 u=krafaels n=ansible | =============================================================================== 
+2021-02-01 12:29:21,583 p=82606 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 5 seconds
+2021-02-01 14:07:11,920 p=103798 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-01 14:07:12,142 p=103798 u=krafaels n=ansible | PLAY [localhost] ******************************************************************************************************************
+2021-02-01 14:07:12,152 p=103798 u=krafaels n=ansible | TASK [Gathering Facts] ************************************************************************************************************
+2021-02-01 14:07:12,152 p=103798 u=krafaels n=ansible | Monday 01 February 2021  14:07:12 -0600 (0:00:00.023)       0:00:00.023 ******* 
+2021-02-01 14:07:13,137 p=103798 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 14:07:13,161 p=103798 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] **************************************************************************************
+2021-02-01 14:07:13,161 p=103798 u=krafaels n=ansible | Monday 01 February 2021  14:07:13 -0600 (0:00:01.008)       0:00:01.032 ******* 
+2021-02-01 14:07:13,227 p=103798 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-02-01 14:07:13,242 p=103798 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] ***********************************************************************************
+2021-02-01 14:07:13,242 p=103798 u=krafaels n=ansible | Monday 01 February 2021  14:07:13 -0600 (0:00:00.080)       0:00:01.112 ******* 
+2021-02-01 14:07:15,169 p=103798 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-02-01 14:07:18,558 p=103798 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-02-01 14:07:19,734 p=103798 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-02-01 14:07:20,862 p=103798 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-02-01 14:07:24,241 p=103798 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-02-01 14:07:25,390 p=103798 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-02-01 14:07:26,599 p=103798 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-02-01 14:07:26,609 p=103798 u=krafaels n=ansible | PLAY RECAP ************************************************************************************************************************
+2021-02-01 14:07:26,610 p=103798 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-01 14:07:26,610 p=103798 u=krafaels n=ansible | Monday 01 February 2021  14:07:26 -0600 (0:00:13.368)       0:00:14.480 ******* 
+2021-02-01 14:07:26,610 p=103798 u=krafaels n=ansible | =============================================================================== 
+2021-02-01 14:07:26,610 p=103798 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 14 seconds
+2021-02-01 14:32:04,020 p=109711 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-01 14:32:04,236 p=109711 u=krafaels n=ansible | PLAY [localhost] ************************************************************************************************************************************************************************
+2021-02-01 14:32:04,247 p=109711 u=krafaels n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************************
+2021-02-01 14:32:04,247 p=109711 u=krafaels n=ansible | Monday 01 February 2021  14:32:04 -0600 (0:00:00.022)       0:00:00.022 ******* 
+2021-02-01 14:32:05,444 p=109711 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 14:32:05,468 p=109711 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ********************************************************************************************************************************************
+2021-02-01 14:32:05,468 p=109711 u=krafaels n=ansible | Monday 01 February 2021  14:32:05 -0600 (0:00:01.221)       0:00:01.244 ******* 
+2021-02-01 14:32:05,537 p=109711 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-02-01 14:32:05,553 p=109711 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] *****************************************************************************************************************************************
+2021-02-01 14:32:05,554 p=109711 u=krafaels n=ansible | Monday 01 February 2021  14:32:05 -0600 (0:00:00.085)       0:00:01.329 ******* 
+2021-02-01 14:32:07,568 p=109711 u=krafaels n=ansible | failed: [localhost] (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-instance.yaml"
+}
+
+MSG:
+
+Failed to find exact match for logging.openshift.io/v1.ClusterLogging by [kind, name, singularName, shortNames]
+
+2021-02-01 14:32:11,065 p=109711 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-02-01 14:32:12,304 p=109711 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-02-01 14:32:13,470 p=109711 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-02-01 14:32:14,616 p=109711 u=krafaels n=ansible | ERROR! Unexpected Exception, this is probably a bug: release unlocked lock
+2021-02-01 14:32:14,617 p=109711 u=krafaels n=ansible | to see the full traceback, use -vvv
+2021-02-01 14:32:14,637 p=109711 u=krafaels n=ansible | the full traceback was:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/ansible/plugins/strategy/__init__.py", line 479, in _process_pending_results
+    self._results_lock.acquire()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/ansible-playbook", line 123, in <module>
+    exit_code = cli.run()
+  File "/usr/local/lib/python3.6/site-packages/ansible/cli/playbook.py", line 127, in run
+    results = pbex.run()
+  File "/usr/local/lib/python3.6/site-packages/ansible/executor/playbook_executor.py", line 169, in run
+    result = self._tqm.run(play=play)
+  File "/usr/local/lib/python3.6/site-packages/ansible/executor/task_queue_manager.py", line 241, in run
+    play_return = strategy.run(iterator, play_context)
+  File "/usr/local/lib/python3.6/site-packages/ansible/plugins/strategy/linear.py", line 325, in run
+    results += self._wait_on_pending_results(iterator)
+  File "/usr/local/lib/python3.6/site-packages/ansible/plugins/strategy/__init__.py", line 764, in _wait_on_pending_results
+    results = self._process_pending_results(iterator)
+  File "/usr/local/lib/python3.6/site-packages/ansible/plugins/strategy/__init__.py", line 110, in inner
+    results = func(self, iterator, one_pass=one_pass, max_passes=max_passes)
+  File "/usr/local/lib/python3.6/site-packages/ansible/plugins/strategy/__init__.py", line 484, in _process_pending_results
+    self._results_lock.release()
+RuntimeError: release unlocked lock
+
+2021-02-01 14:32:28,329 p=109976 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-01 14:32:28,540 p=109976 u=krafaels n=ansible | PLAY [localhost] ************************************************************************************************************************************************************************
+2021-02-01 14:32:28,587 p=109976 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] *************************************************************************************************************************************
+2021-02-01 14:32:28,587 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:28 -0600 (0:00:00.058)       0:00:00.058 ******* 
+2021-02-01 14:32:28,660 p=109976 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-01 14:32:28,676 p=109976 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for .conf] ******************************************************************************************************************************
+2021-02-01 14:32:28,676 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:28 -0600 (0:00:00.088)       0:00:00.147 ******* 
+2021-02-01 14:32:29,125 p=109976 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 14:32:29,144 p=109976 u=krafaels n=ansible | TASK [ops_machineset : Set chronyd conf base64 encoded] *********************************************************************************************************************************
+2021-02-01 14:32:29,144 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:29 -0600 (0:00:00.467)       0:00:00.615 ******* 
+2021-02-01 14:32:29,359 p=109976 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 14:32:29,374 p=109976 u=krafaels n=ansible | TASK [ops_machineset : Create Worker Machine Config] ************************************************************************************************************************************
+2021-02-01 14:32:29,374 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:29 -0600 (0:00:00.230)       0:00:00.845 ******* 
+2021-02-01 14:32:30,899 p=109976 u=krafaels n=ansible | changed: [localhost]
+2021-02-01 14:32:30,940 p=109976 u=krafaels n=ansible | TASK [ops_machineset : Set machine config role master state] ****************************************************************************************************************************
+2021-02-01 14:32:30,940 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:30 -0600 (0:00:01.565)       0:00:02.411 ******* 
+2021-02-01 14:32:30,955 p=109976 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 14:32:30,957 p=109976 u=krafaels n=ansible | PLAY RECAP ******************************************************************************************************************************************************************************
+2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | localhost                  : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:30 -0600 (0:00:00.017)       0:00:02.429 ******* 
+2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | =============================================================================== 
+2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds

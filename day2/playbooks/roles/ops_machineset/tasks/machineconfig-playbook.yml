@@ -4,20 +4,20 @@
 # TODO: ADD task 
 #       Create jinja template for registries.conf
 
-- name: Get base64 encode output for registries.conf
-  shell: base64 -w 0 {{ role_path}}/files/registries.conf
-  changed_when: false
-  register: r_registries_conf_b64encode
+# - name: Get base64 encode output for registries.conf
+#   shell: base64 -w 0 {{ role_path}}/files/registries.conf
+#   changed_when: false
+#   register: r_registries_conf_b64encode
 
-- name: Set registries conf base64 encoded
-  set_fact:
-    registries_conf_b64encoded: "{{ r_registries_conf_b64encode.stdout | trim }}"
+# - name: Set registries conf base64 encoded
+#   set_fact:
+#     registries_conf_b64encoded: "{{ r_registries_conf_b64encode.stdout | trim }}"
 
-- name: Create Master Machine Config
-  k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
-    state: present
-    definition: "{{ lookup('template', '../templates/machine-config-registry-conf.j2') }}"
+# - name: Create Master Machine Config
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+#     state: present
+#     definition: "{{ lookup('template', '../templates/machine-config-registry-conf.j2') }}"
 
 - name: Get base64 encode output for .conf
   shell: base64 -w 0 {{ role_path}}/files/master-chrony.conf
@@ -28,18 +28,24 @@
   set_fact:
     chrony_conf_b64encoded: "{{ r_chrony_conf_b64encode.stdout | trim }}"
 
-- name: Create Master Machine Config
+# - name: Create Master Machine Config
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+#     state: present
+#     definition: "{{ lookup('template', '../templates/masters-chrony-conf.j2') }}"
+
+- name: Create Worker Machine Config
   k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
     state: present
-    definition: "{{ lookup('template', '../templates/masters-chrony-conf.j2') }}"
+    definition: "{{ lookup('template', '../templates/workers-chrony-conf.j2') }}"
 
 - name: Set machine config role master state
   set_fact: 
     machine_config_role_is_master: false
 
-- name: Create Worker Machine Config
-  k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
-    state: present
-    definition: "{{ lookup('template', '../templates/machine-config-registry-conf.j2') }}"
+# - name: Create Worker Machine Config
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+#     state: present
+#     definition: "{{ lookup('template', '../templates/machine-config-registry-conf.j2') }}"

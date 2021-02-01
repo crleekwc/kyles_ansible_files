@@ -1,0 +1,5 @@
+---
+# tasks file for ops_logging
+
+- name: Include tasks from playbook
+  include_tasks: log-forwarding.yml

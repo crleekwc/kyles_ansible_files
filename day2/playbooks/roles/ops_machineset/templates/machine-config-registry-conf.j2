@@ -19,6 +19,6 @@ spec:
       - contents:
           source: data:text/plain;charset=utf-8;base64,{{ registries_conf_b64encoded }}
           verification: {}
-        filesystem: root
+        overwrite: true
         mode: 420
         path: /etc/containers/registries.conf

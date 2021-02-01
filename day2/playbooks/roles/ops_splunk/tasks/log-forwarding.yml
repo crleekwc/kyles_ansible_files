@@ -1,0 +1,6 @@
+- name: Create LogForwarding to Splunk
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    state: present
+    definition: "{{ lookup('file', '../templates/splunk-log-forwarding.yaml') }}"
+
