@@ -511,3 +511,26 @@ RuntimeError: release unlocked lock
 2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | Monday 01 February 2021  14:32:30 -0600 (0:00:00.017)       0:00:02.429 ******* 
 2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | =============================================================================== 
 2021-02-01 14:32:30,958 p=109976 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+2021-02-01 20:49:00,914 p=191531 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the
+implicit localhost does not match 'all'
+
+2021-02-01 20:49:01,132 p=191531 u=krafaels n=ansible | PLAY [localhost] ************************************************************************
+2021-02-01 20:49:01,142 p=191531 u=krafaels n=ansible | TASK [Gathering Facts] ******************************************************************
+2021-02-01 20:49:01,143 p=191531 u=krafaels n=ansible | Monday 01 February 2021  20:49:01 -0600 (0:00:00.022)       0:00:00.022 ******* 
+2021-02-01 20:49:02,300 p=191531 u=krafaels n=ansible | ok: [localhost]
+2021-02-01 20:49:02,323 p=191531 u=krafaels n=ansible | TASK [ops_efk : Include tasks from playbook] ********************************************
+2021-02-01 20:49:02,323 p=191531 u=krafaels n=ansible | Monday 01 February 2021  20:49:02 -0600 (0:00:01.180)       0:00:01.203 ******* 
+2021-02-01 20:49:02,389 p=191531 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/tasks/efk-logging.yml for localhost
+2021-02-01 20:49:02,405 p=191531 u=krafaels n=ansible | TASK [ops_efk : Create EFK component resources] *****************************************
+2021-02-01 20:49:02,405 p=191531 u=krafaels n=ansible | Monday 01 February 2021  20:49:02 -0600 (0:00:00.082)       0:00:01.285 ******* 
+2021-02-01 20:49:06,285 p=191531 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-namespace.yaml)
+2021-02-01 20:49:07,587 p=191531 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-og.yaml)
+2021-02-01 20:49:08,915 p=191531 u=krafaels n=ansible | ok: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/clo-sub.yaml)
+2021-02-01 20:49:13,648 p=191531 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-namespace.yaml)
+2021-02-01 20:49:15,148 p=191531 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-og.yaml)
+2021-02-01 20:49:16,345 p=191531 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_efk/templates/eo-sub.yaml)
+2021-02-01 20:49:16,354 p=191531 u=krafaels n=ansible | PLAY RECAP ******************************************************************************
+2021-02-01 20:49:16,354 p=191531 u=krafaels n=ansible | localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-01 20:49:16,355 p=191531 u=krafaels n=ansible | Monday 01 February 2021  20:49:16 -0600 (0:00:13.949)       0:00:15.234 ******* 
+2021-02-01 20:49:16,355 p=191531 u=krafaels n=ansible | =============================================================================== 
+2021-02-01 20:49:16,355 p=191531 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 15 seconds

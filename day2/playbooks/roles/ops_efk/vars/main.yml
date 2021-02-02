@@ -2,7 +2,7 @@
 # vars file for ops_efk
 
 efk_template_files:
-  - "{{ role_path }}/templates/clo-instance.yaml"
+  # - "{{ role_path }}/templates/clo-instance.yaml"
   - "{{ role_path }}/templates/clo-namespace.yaml"
   - "{{ role_path }}/templates/clo-og.yaml"
   - "{{ role_path }}/templates/clo-sub.yaml"

@@ -3,21 +3,21 @@ kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-  name: "{{ infrastructure_name }}-storage-us-gov-east-1b"
+  name: "{{ infrastructure_name }}-storage-us-gove-east-1c"
   namespace: openshift-machine-api
 spec:
   replicas: 1
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gove-east-1c" 
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
         machine.openshift.io/cluster-api-machine-role: storage
         machine.openshift.io/cluster-api-machine-type: storage
-        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b"
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gove-east-1c"
     spec:
       metadata:
         labels:
@@ -49,7 +49,7 @@ spec:
           instanceType: m5.4xlarge
           kind: AWSMachineProviderConfig
           placement:
-            availabilityZone: us-gov-east-1b
+            availabilityZone: us-gove-east-1c
             region: us-gov-east-1
           securityGroups:
             - filters:
@@ -60,7 +60,7 @@ spec:
             filters:
               - name: tag:Name
                 values:
-                  - "{{ infrastructure_name }}-private-us-gov-east-1b"
+                  - "{{ infrastructure_name }}-private-us-gove-east-1c"
           tags:
             - name: "kubernetes.io/cluster/{{ infrastructure_name }}"
               value: owned
