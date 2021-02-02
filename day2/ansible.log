@@ -534,3 +534,399 @@ implicit localhost does not match 'all'
 2021-02-01 20:49:16,355 p=191531 u=krafaels n=ansible | Monday 01 February 2021  20:49:16 -0600 (0:00:13.949)       0:00:15.234 ******* 
 2021-02-01 20:49:16,355 p=191531 u=krafaels n=ansible | =============================================================================== 
 2021-02-01 20:49:16,355 p=191531 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 15 seconds
+2021-02-02 12:19:00,069 p=380301 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+2021-02-02 12:19:00,472 p=380301 u=krafaels n=ansible | PLAY [localhost] *****************************************************************************************
+2021-02-02 12:19:00,490 p=380301 u=krafaels n=ansible | TASK [Gathering Facts] ***********************************************************************************
+2021-02-02 12:19:00,490 p=380301 u=krafaels n=ansible | Tuesday 02 February 2021  12:19:00 -0600 (0:00:00.040)       0:00:00.040 ****** 
+2021-02-02 12:19:01,988 p=380301 u=krafaels n=ansible | ok: [localhost]
+2021-02-02 12:19:02,035 p=380301 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ******************************************************
+2021-02-02 12:19:02,035 p=380301 u=krafaels n=ansible | Tuesday 02 February 2021  12:19:02 -0600 (0:00:01.544)       0:00:01.585 ****** 
+2021-02-02 12:19:02,152 p=380301 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-02 12:19:02,196 p=380301 u=krafaels n=ansible | TASK [ops_machineset : Create OCS machinesets] ***********************************************************
+2021-02-02 12:19:02,196 p=380301 u=krafaels n=ansible | Tuesday 02 February 2021  12:19:02 -0600 (0:00:00.161)       0:00:01.746 ****** 
+2021-02-02 12:19:02,575 p=380301 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {}
+
+MSG:
+
+The task includes an option with an undefined variable. The error was: 'item' is undefined
+
+The error appears to be in '/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml': line 6, column 3, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+#       Create jinja template for registries.conf
+- name: Create OCS machinesets
+  ^ here
+
+
+2021-02-02 12:19:02,577 p=380301 u=krafaels n=ansible | PLAY RECAP ***********************************************************************************************
+2021-02-02 12:19:02,577 p=380301 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-02 12:19:02,578 p=380301 u=krafaels n=ansible | Tuesday 02 February 2021  12:19:02 -0600 (0:00:00.381)       0:00:02.127 ****** 
+2021-02-02 12:19:02,578 p=380301 u=krafaels n=ansible | =============================================================================== 
+2021-02-02 12:19:02,578 p=380301 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+2021-02-02 12:21:17,211 p=381056 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+2021-02-02 12:21:17,574 p=381056 u=krafaels n=ansible | PLAY [localhost] *****************************************************************************************
+2021-02-02 12:21:17,642 p=381056 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ******************************************************
+2021-02-02 12:21:17,642 p=381056 u=krafaels n=ansible | Tuesday 02 February 2021  12:21:17 -0600 (0:00:00.090)       0:00:00.090 ****** 
+2021-02-02 12:21:17,747 p=381056 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-02 12:21:17,774 p=381056 u=krafaels n=ansible | TASK [ops_machineset : Create OCS machinesets] ***********************************************************
+2021-02-02 12:21:17,774 p=381056 u=krafaels n=ansible | Tuesday 02 February 2021  12:21:17 -0600 (0:00:00.131)       0:00:00.222 ****** 
+2021-02-02 12:21:20,346 p=381056 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {
+    "changed": false
+}
+
+MSG:
+
+Failed to find exact match for machine.openshift.io/v1aeta1.MachineSet by [kind, name, singularName, shortNames]
+
+2021-02-02 12:21:20,348 p=381056 u=krafaels n=ansible | PLAY RECAP ***********************************************************************************************
+2021-02-02 12:21:20,348 p=381056 u=krafaels n=ansible | localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-02 12:21:20,348 p=381056 u=krafaels n=ansible | Tuesday 02 February 2021  12:21:20 -0600 (0:00:02.573)       0:00:02.795 ****** 
+2021-02-02 12:21:20,348 p=381056 u=krafaels n=ansible | =============================================================================== 
+2021-02-02 12:21:20,348 p=381056 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+2021-02-02 12:21:44,552 p=381199 u=krafaels n=ansible | ansible-playbook 2.9.9
+  config file = /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/ansible.cfg
+  configured module search path = ['/home/krafaels/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python3.6/site-packages/ansible
+  executable location = /usr/local/bin/ansible-playbook
+  python version = 3.6.8 (default, Dec  5 2019, 15:45:45) [GCC 8.3.1 20191121 (Red Hat 8.3.1-5)]
+2021-02-02 12:21:44,552 p=381199 u=krafaels n=ansible | Using /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/ansible.cfg as config file
+2021-02-02 12:21:44,565 p=381199 u=krafaels n=ansible | host_list declined parsing /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory as it did not pass its verify_file() method
+2021-02-02 12:21:44,566 p=381199 u=krafaels n=ansible | script declined parsing /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory as it did not pass its verify_file() method
+2021-02-02 12:21:44,566 p=381199 u=krafaels n=ansible | auto declined parsing /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory as it did not pass its verify_file() method
+2021-02-02 12:21:44,571 p=381199 u=krafaels n=ansible | Parsed /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory inventory source with ini plugin
+2021-02-02 12:21:44,573 p=381199 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+2021-02-02 12:21:44,975 p=381199 u=krafaels n=ansible | PLAYBOOK: configure-day2-operations.yml ******************************************************************
+2021-02-02 12:21:44,975 p=381199 u=krafaels n=ansible | 1 plays in playbooks/configure-day2-operations.yml
+2021-02-02 12:21:44,978 p=381199 u=krafaels n=ansible | PLAY [localhost] *****************************************************************************************
+2021-02-02 12:21:44,995 p=381199 u=krafaels n=ansible | META: ran handlers
+2021-02-02 12:21:45,061 p=381199 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ******************************************************
+2021-02-02 12:21:45,062 p=381199 u=krafaels n=ansible | task path: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/main.yml:4
+2021-02-02 12:21:45,062 p=381199 u=krafaels n=ansible | Tuesday 02 February 2021  12:21:45 -0600 (0:00:00.107)       0:00:00.107 ****** 
+2021-02-02 12:21:45,209 p=381199 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-02 12:21:45,241 p=381199 u=krafaels n=ansible | TASK [ops_machineset : Create OCS machinesets] ***********************************************************
+2021-02-02 12:21:45,241 p=381199 u=krafaels n=ansible | task path: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml:6
+2021-02-02 12:21:45,242 p=381199 u=krafaels n=ansible | Tuesday 02 February 2021  12:21:45 -0600 (0:00:00.179)       0:00:00.287 ****** 
+2021-02-02 12:21:45,828 p=381248 u=krafaels n=ansible | Using module file /usr/local/lib/python3.6/site-packages/ansible/modules/clustering/k8s/k8s.py
+2021-02-02 12:21:45,828 p=381248 u=krafaels n=ansible | Pipelining is enabled.
+2021-02-02 12:21:45,828 p=381248 u=krafaels n=ansible | <127.0.0.1> ESTABLISH LOCAL CONNECTION FOR USER: krafaels
+2021-02-02 12:21:45,828 p=381248 u=krafaels n=ansible | <127.0.0.1> EXEC /bin/sh -c '/usr/bin/python3.6 && sleep 0'
+2021-02-02 12:21:48,591 p=381199 u=krafaels n=ansible | The full traceback is:
+  File "/tmp/ansible_k8s_payload_73jgtoe3/ansible_k8s_payload.zip/ansible/module_utils/k8s/common.py", line 209, in find_resource
+    return self.client.resources.get(api_version=api_version, short_names=[kind])
+  File "/usr/local/lib/python3.6/site-packages/openshift/dynamic/discovery.py", line 246, in get
+    raise ResourceNotFoundError('No matches found for {}'.format(kwargs))
+
+2021-02-02 12:21:48,592 p=381199 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "api_key": null,
+            "api_version": "v1",
+            "append_hash": false,
+            "apply": false,
+            "ca_cert": null,
+            "client_cert": null,
+            "client_key": null,
+            "context": null,
+            "definition": "apiVersion: machine.openshift.io/v1aeta1\nkind: MachineSet\nmetadata:\n  labels:\n    machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\"\n  name: \"ocp4-fee54-storage-us-gov-east-1a\"\n  namespace: openshift-machine-api\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\"\n      machine.openshift.io/cluster-api-machineset: \"ocp4-fee54-storage-us-gov-east-1a\" \n  template:\n    metadata:\n      labels:\n        machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\" \n        machine.openshift.io/cluster-api-machine-role: storage\n        machine.openshift.io/cluster-api-machine-type: storage\n        machine.openshift.io/cluster-api-machineset: \"ocp4-fee54-storage-us-gov-east-1a\"\n    spec:\n      metadata:\n        labels:\n          cluster.ocs.openshift.io/openshift-storage: \"\"\n      providerSpec:\n        value:\n          ami:\n            id: ami-a45ab1d5 \n          apiVersion: awsproviderconfig.openshift.io/v1aeta1\n          blockDevices:\n            - ebs:\n                iops: 0\n                volumeSize: 120\n                volumeType: gp2\n            - ebs:\n                iops: 0\n                volumeSize: 1000\n                volumeType: gp2\n            - ebs:\n                iops: 0\n                volumeSize: 1000\n                volumeType: gp2\n          credentialsSecret:\n            name: aws-cloud-credentials\n          deviceIndex: 0\n          # iamInstanceProfile:\n            # id: \"ocp4-fee54-storage-profile\"  # Need to change this \n          instanceType: m5.4xlarge\n          kind: AWSMachineProviderConfig\n          placement:\n            availabilityZone: us-gov-east-1a\n            region: us-gov-east-1\n          securityGroups:\n            - filters:\n                - name: tag:Name\n                  values:\n                    - \"ocp4-fee54-worker-sg\"  \n          subnet:\n            filters:\n              - name: tag:Name\n                values:\n                  - 'Sandbox2 Subnet 2B'\n          tags:\n            - name: \"kubernetes.io/cluster/ocp4-fee54\"\n              value: owned\n          userDataSecret:\n            name: worker-user-data   \n",
+            "force": false,
+            "host": null,
+            "kind": null,
+            "kubeconfig": "/home/krafaels/.kubeconfig",
+            "merge_type": null,
+            "name": null,
+            "namespace": null,
+            "password": null,
+            "proxy": null,
+            "resource_definition": "apiVersion: machine.openshift.io/v1aeta1\nkind: MachineSet\nmetadata:\n  labels:\n    machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\"\n  name: \"ocp4-fee54-storage-us-gov-east-1a\"\n  namespace: openshift-machine-api\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\"\n      machine.openshift.io/cluster-api-machineset: \"ocp4-fee54-storage-us-gov-east-1a\" \n  template:\n    metadata:\n      labels:\n        machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\" \n        machine.openshift.io/cluster-api-machine-role: storage\n        machine.openshift.io/cluster-api-machine-type: storage\n        machine.openshift.io/cluster-api-machineset: \"ocp4-fee54-storage-us-gov-east-1a\"\n    spec:\n      metadata:\n        labels:\n          cluster.ocs.openshift.io/openshift-storage: \"\"\n      providerSpec:\n        value:\n          ami:\n            id: ami-a45ab1d5 \n          apiVersion: awsproviderconfig.openshift.io/v1aeta1\n          blockDevices:\n            - ebs:\n                iops: 0\n                volumeSize: 120\n                volumeType: gp2\n            - ebs:\n                iops: 0\n                volumeSize: 1000\n                volumeType: gp2\n            - ebs:\n                iops: 0\n                volumeSize: 1000\n                volumeType: gp2\n          credentialsSecret:\n            name: aws-cloud-credentials\n          deviceIndex: 0\n          # iamInstanceProfile:\n            # id: \"ocp4-fee54-storage-profile\"  # Need to change this \n          instanceType: m5.4xlarge\n          kind: AWSMachineProviderConfig\n          placement:\n            availabilityZone: us-gov-east-1a\n            region: us-gov-east-1\n          securityGroups:\n            - filters:\n                - name: tag:Name\n                  values:\n                    - \"ocp4-fee54-worker-sg\"  \n          subnet:\n            filters:\n              - name: tag:Name\n                values:\n                  - 'Sandbox2 Subnet 2B'\n          tags:\n            - name: \"kubernetes.io/cluster/ocp4-fee54\"\n              value: owned\n          userDataSecret:\n            name: worker-user-data   \n",
+            "src": null,
+            "state": "present",
+            "username": null,
+            "validate": null,
+            "validate_certs": null,
+            "wait": false,
+            "wait_condition": null,
+            "wait_sleep": 5,
+            "wait_timeout": 120
+        }
+    }
+}
+
+MSG:
+
+Failed to find exact match for machine.openshift.io/v1aeta1.MachineSet by [kind, name, singularName, shortNames]
+
+2021-02-02 12:21:48,594 p=381199 u=krafaels n=ansible | PLAY RECAP ***********************************************************************************************
+2021-02-02 12:21:48,594 p=381199 u=krafaels n=ansible | localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-02 12:21:48,594 p=381199 u=krafaels n=ansible | Tuesday 02 February 2021  12:21:48 -0600 (0:00:03.352)       0:00:03.640 ****** 
+2021-02-02 12:21:48,595 p=381199 u=krafaels n=ansible | =============================================================================== 
+2021-02-02 12:21:48,595 p=381199 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
+2021-02-02 12:22:34,102 p=381474 u=krafaels n=ansible | ansible-playbook 2.9.9
+  config file = /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/ansible.cfg
+  configured module search path = ['/home/krafaels/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python3.6/site-packages/ansible
+  executable location = /usr/local/bin/ansible-playbook
+  python version = 3.6.8 (default, Dec  5 2019, 15:45:45) [GCC 8.3.1 20191121 (Red Hat 8.3.1-5)]
+2021-02-02 12:22:34,102 p=381474 u=krafaels n=ansible | Using /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/ansible.cfg as config file
+2021-02-02 12:22:34,120 p=381474 u=krafaels n=ansible | host_list declined parsing /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory as it did not pass its verify_file() method
+2021-02-02 12:22:34,120 p=381474 u=krafaels n=ansible | script declined parsing /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory as it did not pass its verify_file() method
+2021-02-02 12:22:34,121 p=381474 u=krafaels n=ansible | auto declined parsing /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory as it did not pass its verify_file() method
+2021-02-02 12:22:34,126 p=381474 u=krafaels n=ansible | Parsed /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/inventory inventory source with ini plugin
+2021-02-02 12:22:34,129 p=381474 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+2021-02-02 12:22:34,504 p=381474 u=krafaels n=ansible | PLAYBOOK: configure-day2-operations.yml ******************************************************************
+2021-02-02 12:22:34,504 p=381474 u=krafaels n=ansible | 1 plays in playbooks/configure-day2-operations.yml
+2021-02-02 12:22:34,508 p=381474 u=krafaels n=ansible | PLAY [localhost] *****************************************************************************************
+2021-02-02 12:22:34,522 p=381474 u=krafaels n=ansible | META: ran handlers
+2021-02-02 12:22:34,576 p=381474 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ******************************************************
+2021-02-02 12:22:34,576 p=381474 u=krafaels n=ansible | task path: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/main.yml:4
+2021-02-02 12:22:34,577 p=381474 u=krafaels n=ansible | Tuesday 02 February 2021  12:22:34 -0600 (0:00:00.090)       0:00:00.090 ****** 
+2021-02-02 12:22:34,691 p=381474 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-02 12:22:34,722 p=381474 u=krafaels n=ansible | TASK [ops_machineset : Create OCS machinesets] ***********************************************************
+2021-02-02 12:22:34,723 p=381474 u=krafaels n=ansible | task path: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml:6
+2021-02-02 12:22:34,723 p=381474 u=krafaels n=ansible | Tuesday 02 February 2021  12:22:34 -0600 (0:00:00.146)       0:00:00.237 ****** 
+2021-02-02 12:22:35,323 p=381484 u=krafaels n=ansible | Using module file /usr/local/lib/python3.6/site-packages/ansible/modules/clustering/k8s/k8s.py
+2021-02-02 12:22:35,323 p=381484 u=krafaels n=ansible | Pipelining is enabled.
+2021-02-02 12:22:35,323 p=381484 u=krafaels n=ansible | <127.0.0.1> ESTABLISH LOCAL CONNECTION FOR USER: krafaels
+2021-02-02 12:22:35,323 p=381484 u=krafaels n=ansible | <127.0.0.1> EXEC /bin/sh -c '/usr/bin/python3.6 && sleep 0'
+2021-02-02 12:22:36,919 p=381474 u=krafaels n=ansible | changed: [localhost] => {
+    "changed": true,
+    "invocation": {
+        "module_args": {
+            "api_key": null,
+            "api_version": "v1",
+            "append_hash": false,
+            "apply": false,
+            "ca_cert": null,
+            "client_cert": null,
+            "client_key": null,
+            "context": null,
+            "force": false,
+            "host": null,
+            "kind": null,
+            "kubeconfig": "/home/krafaels/.kubeconfig",
+            "merge_type": null,
+            "name": null,
+            "namespace": null,
+            "password": null,
+            "proxy": null,
+            "resource_definition": "apiVersion: machine.openshift.io/v1beta1\nkind: MachineSet\nmetadata:\n  labels:\n    machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\"\n  name: \"ocp4-fee54-storage-us-gov-east-1a\"\n  namespace: openshift-machine-api\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\"\n      machine.openshift.io/cluster-api-machineset: \"ocp4-fee54-storage-us-gov-east-1a\" \n  template:\n    metadata:\n      labels:\n        machine.openshift.io/cluster-api-cluster: \"ocp4-fee54\" \n        machine.openshift.io/cluster-api-machine-role: storage\n        machine.openshift.io/cluster-api-machine-type: storage\n        machine.openshift.io/cluster-api-machineset: \"ocp4-fee54-storage-us-gov-east-1a\"\n    spec:\n      metadata:\n        labels:\n          cluster.ocs.openshift.io/openshift-storage: \"\"\n      providerSpec:\n        value:\n          ami:\n            id: ami-a45ab1d5 \n          apiVersion: awsproviderconfig.openshift.io/v1aeta1\n          blockDevices:\n            - ebs:\n                iops: 0\n                volumeSize: 120\n                volumeType: gp2\n            - ebs:\n                iops: 0\n                volumeSize: 1000\n                volumeType: gp2\n            - ebs:\n                iops: 0\n                volumeSize: 1000\n                volumeType: gp2\n          credentialsSecret:\n            name: aws-cloud-credentials\n          deviceIndex: 0\n          # iamInstanceProfile:\n            # id: \"ocp4-fee54-storage-profile\"  # Need to change this \n          instanceType: m5.4xlarge\n          kind: AWSMachineProviderConfig\n          placement:\n            availabilityZone: us-gov-east-1a\n            region: us-gov-east-1\n          securityGroups:\n            - filters:\n                - name: tag:Name\n                  values:\n                    - \"ocp4-fee54-worker-sg\"  \n          subnet:\n            filters:\n              - name: tag:Name\n                values:\n                  - 'Sandbox2 Subnet 2B'\n          tags:\n            - name: \"kubernetes.io/cluster/ocp4-fee54\"\n              value: owned\n          userDataSecret:\n            name: worker-user-data   \n",
+            "src": null,
+            "state": "present",
+            "username": null,
+            "validate": null,
+            "validate_certs": null,
+            "wait": false,
+            "wait_condition": null,
+            "wait_sleep": 5,
+            "wait_timeout": 120
+        }
+    },
+    "method": "create",
+    "result": {
+        "apiVersion": "machine.openshift.io/v1beta1",
+        "kind": "MachineSet",
+        "metadata": {
+            "creationTimestamp": "2021-02-02T18:22:25Z",
+            "generation": 1,
+            "labels": {
+                "machine.openshift.io/cluster-api-cluster": "ocp4-fee54"
+            },
+            "managedFields": [
+                {
+                    "apiVersion": "machine.openshift.io/v1beta1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:labels": {
+                                ".": {},
+                                "f:machine.openshift.io/cluster-api-cluster": {}
+                            }
+                        },
+                        "f:spec": {
+                            ".": {},
+                            "f:replicas": {},
+                            "f:selector": {
+                                ".": {},
+                                "f:matchLabels": {
+                                    ".": {},
+                                    "f:machine.openshift.io/cluster-api-cluster": {},
+                                    "f:machine.openshift.io/cluster-api-machineset": {}
+                                }
+                            },
+                            "f:template": {
+                                ".": {},
+                                "f:metadata": {
+                                    ".": {},
+                                    "f:labels": {
+                                        ".": {},
+                                        "f:machine.openshift.io/cluster-api-cluster": {},
+                                        "f:machine.openshift.io/cluster-api-machine-role": {},
+                                        "f:machine.openshift.io/cluster-api-machine-type": {},
+                                        "f:machine.openshift.io/cluster-api-machineset": {}
+                                    }
+                                },
+                                "f:spec": {
+                                    ".": {},
+                                    "f:metadata": {
+                                        ".": {},
+                                        "f:labels": {
+                                            ".": {},
+                                            "f:cluster.ocs.openshift.io/openshift-storage": {}
+                                        }
+                                    },
+                                    "f:providerSpec": {
+                                        ".": {},
+                                        "f:value": {
+                                            ".": {},
+                                            "f:ami": {},
+                                            "f:apiVersion": {},
+                                            "f:blockDevices": {},
+                                            "f:credentialsSecret": {},
+                                            "f:deviceIndex": {},
+                                            "f:instanceType": {},
+                                            "f:kind": {},
+                                            "f:placement": {},
+                                            "f:securityGroups": {},
+                                            "f:subnet": {},
+                                            "f:tags": {},
+                                            "f:userDataSecret": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "manager": "OpenAPI-Generator",
+                    "operation": "Update",
+                    "time": "2021-02-02T18:22:25Z"
+                }
+            ],
+            "name": "ocp4-fee54-storage-us-gov-east-1a",
+            "namespace": "openshift-machine-api",
+            "resourceVersion": "4533335",
+            "selfLink": "/apis/machine.openshift.io/v1beta1/namespaces/openshift-machine-api/machinesets/ocp4-fee54-storage-us-gov-east-1a",
+            "uid": "28827636-4c2e-45db-a588-771f7c0fd030"
+        },
+        "spec": {
+            "replicas": 1,
+            "selector": {
+                "matchLabels": {
+                    "machine.openshift.io/cluster-api-cluster": "ocp4-fee54",
+                    "machine.openshift.io/cluster-api-machineset": "ocp4-fee54-storage-us-gov-east-1a"
+                }
+            },
+            "template": {
+                "metadata": {
+                    "labels": {
+                        "machine.openshift.io/cluster-api-cluster": "ocp4-fee54",
+                        "machine.openshift.io/cluster-api-machine-role": "storage",
+                        "machine.openshift.io/cluster-api-machine-type": "storage",
+                        "machine.openshift.io/cluster-api-machineset": "ocp4-fee54-storage-us-gov-east-1a"
+                    }
+                },
+                "spec": {
+                    "metadata": {
+                        "labels": {
+                            "cluster.ocs.openshift.io/openshift-storage": ""
+                        }
+                    },
+                    "providerSpec": {
+                        "value": {
+                            "ami": {
+                                "id": "ami-a45ab1d5"
+                            },
+                            "apiVersion": "awsproviderconfig.openshift.io/v1aeta1",
+                            "blockDevices": [
+                                {
+                                    "ebs": {
+                                        "iops": 0,
+                                        "kmsKey": {},
+                                        "volumeSize": 120,
+                                        "volumeType": "gp2"
+                                    }
+                                },
+                                {
+                                    "ebs": {
+                                        "iops": 0,
+                                        "kmsKey": {},
+                                        "volumeSize": 1000,
+                                        "volumeType": "gp2"
+                                    }
+                                },
+                                {
+                                    "ebs": {
+                                        "iops": 0,
+                                        "kmsKey": {},
+                                        "volumeSize": 1000,
+                                        "volumeType": "gp2"
+                                    }
+                                }
+                            ],
+                            "credentialsSecret": {
+                                "name": "aws-cloud-credentials"
+                            },
+                            "deviceIndex": 0,
+                            "instanceType": "m5.4xlarge",
+                            "kind": "AWSMachineProviderConfig",
+                            "metadata": {
+                                "creationTimestamp": null
+                            },
+                            "placement": {
+                                "availabilityZone": "us-gov-east-1a",
+                                "region": "us-gov-east-1"
+                            },
+                            "securityGroups": [
+                                {
+                                    "filters": [
+                                        {
+                                            "name": "tag:Name",
+                                            "values": [
+                                                "ocp4-fee54-worker-sg"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "subnet": {
+                                "filters": [
+                                    {
+                                        "name": "tag:Name",
+                                        "values": [
+                                            "Sandbox2 Subnet 2B"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "tags": [
+                                {
+                                    "name": "kubernetes.io/cluster/ocp4-fee54",
+                                    "value": "owned"
+                                }
+                            ],
+                            "userDataSecret": {
+                                "name": "worker-user-data"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+2021-02-02 12:22:36,921 p=381474 u=krafaels n=ansible | META: ran handlers
+2021-02-02 12:22:36,922 p=381474 u=krafaels n=ansible | META: ran handlers
+2021-02-02 12:22:36,923 p=381474 u=krafaels n=ansible | PLAY RECAP ***********************************************************************************************
+2021-02-02 12:22:36,923 p=381474 u=krafaels n=ansible | localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-02 12:22:36,924 p=381474 u=krafaels n=ansible | Tuesday 02 February 2021  12:22:36 -0600 (0:00:02.200)       0:00:02.437 ****** 
+2021-02-02 12:22:36,924 p=381474 u=krafaels n=ansible | =============================================================================== 
+2021-02-02 12:22:36,924 p=381474 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
