@@ -3,21 +3,21 @@ kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-  name: "{{ infrastructure_name }}-storage-us-gov-east-1b"
+  name: "{{ infrastructure_name }}-storage-us-gov-east-1a"
   namespace: openshift-machine-api
 spec:
   replicas: 1
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1a" 
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
         machine.openshift.io/cluster-api-machine-role: worker
         machine.openshift.io/cluster-api-machine-type: worker
-        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b"
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1a"
     spec:
       metadata:
         labels:
@@ -45,19 +45,19 @@ spec:
           credentialsSecret:
             name: aws-cloud-credentials
           deviceIndex: 0
+          iamInstanceProfile:
+            id: ocp4-fee54-worker-profile
           instanceType: m5.4xlarge
           kind: AWSMachineProviderConfig
           placement:
-            availabilityZone: us-gov-east-1b
+            availabilityZone: us-gov-east-1a
             region: us-gov-east-1
           securityGroups:
+            - id: "sg-0d31847d1f9764fe8"
             - filters:
                 - name: tag:Name
                   values:
                     - "ocp4-fee54-worker-sg"  
-                - name: tag:Name
-                  values:
-                    - "sbx2-common-rhel-sg"
           subnet:
             id: "subnet-00f09b78a771732bd" #change 
           tags:

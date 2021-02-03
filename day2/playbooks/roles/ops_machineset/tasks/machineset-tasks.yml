@@ -1,0 +1,36 @@
+---
+- name: Create worker machinesets 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/worker-1a-machineset.j2') }}"
+
+- name: Create worker machinesets 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/worker-1b-machineset.j2') }}"
+
+- name: Create worker machinesets 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/worker-1c-machineset.j2') }}"
+
+- name: Create OCS machinesets 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/ocs-1a-machineset.j2') }}"
+
+- name: Create OCS machinesets 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/ocs-1b-machineset.j2') }}"
+
+- name: Create OCS machinesets 
+  k8s:
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+    state: present
+    definition: "{{ lookup('template', '../templates/ocs-1c-machineset.j2') }}"

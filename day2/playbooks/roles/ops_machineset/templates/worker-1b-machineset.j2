@@ -3,25 +3,25 @@ kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-  name: "{{ infrastructure_name }}-storage-us-gov-east-1b"
+  name: "{{ infrastructure_name }}-worker-us-gov-east-1b"
   namespace: openshift-machine-api
 spec:
   replicas: 1
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1b" 
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
         machine.openshift.io/cluster-api-machine-role: worker
         machine.openshift.io/cluster-api-machine-type: worker
-        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b"
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1b"
     spec:
       metadata:
         labels:
-          cluster.ocs.openshift.io/openshift-storage: ""
+          node-role.kubernetes.io/worker: ""
       providerSpec:
         value:
           ami:

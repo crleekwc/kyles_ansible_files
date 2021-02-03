@@ -3,25 +3,25 @@ kind: MachineSet
 metadata:
   labels:
     machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-  name: "{{ infrastructure_name }}-infra-1b"
+  name: "{{ infrastructure_name }}-worker-us-gov-east-1a"
   namespace: openshift-machine-api
 spec:
   replicas: 1
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}"
-      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a" 
+      machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1a" 
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
-        machine.openshift.io/cluster-api-machine-role: infra
-        machine.openshift.io/cluster-api-machine-type: infra 
-        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-infra-1a"
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker
+        machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-worker-us-gov-east-1a"
     spec:
       metadata:
         labels:
-          node-role.kubernetes.io/infra: "" 
+          node-role.kubernetes.io/worker: ""
       providerSpec:
         value:
           ami:
@@ -30,30 +30,38 @@ spec:
           blockDevices:
             - ebs:
                 iops: 0
-                volumeSize: 300
+                volumeSize: 120
+                volumeType: gp2
+            - deviceName: /dev/sdb
+              ebs:
+                iops: 0
+                volumeSize: 1000
+                volumeType: gp2
+            - deviceName: /dev/sbc
+              ebs:
+                iops: 0
+                volumeSize: 1000
                 volumeType: gp2
           credentialsSecret:
             name: aws-cloud-credentials
           deviceIndex: 0
           iamInstanceProfile:
-            id: "{{ infrastructure_name }}-infra-profile"  # Need to change this 
-          instanceType: m5a.2xlarge
+            id: ocp4-fee54-worker-profile
+          instanceType: m5.4xlarge
           kind: AWSMachineProviderConfig
           placement:
             availabilityZone: us-gov-east-1a
             region: us-gov-east-1
           securityGroups:
+            - id: "sg-0d31847d1f9764fe8"
             - filters:
                 - name: tag:Name
                   values:
-                    - "{{ infrastructure_name }}-infra-sg"  # Change
+                    - "ocp4-fee54-worker-sg"  
           subnet:
-            filters:
-              - name: tag:Name
-                values:
-                  - "{{ infrastructure_name }}-private-us-gov-east-1a"
+            id: "subnet-00f09b78a771732bd" 
           tags:
             - name: "kubernetes.io/cluster/{{ infrastructure_name }}"
               value: owned
           userDataSecret:
-            name: infra-user-data   # Change
+            name: worker-user-data   
