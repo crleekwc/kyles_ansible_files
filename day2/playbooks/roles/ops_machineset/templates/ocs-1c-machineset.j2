@@ -15,8 +15,8 @@ spec:
     metadata:
       labels:
         machine.openshift.io/cluster-api-cluster: "{{ infrastructure_name }}" 
-        machine.openshift.io/cluster-api-machine-role: storage
-        machine.openshift.io/cluster-api-machine-type: storage
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker
         machine.openshift.io/cluster-api-machineset: "{{ infrastructure_name }}-storage-us-gov-east-1b"
     spec:
       metadata:

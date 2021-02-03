@@ -930,3 +930,55 @@ does not match 'all'
 2021-02-02 12:22:36,924 p=381474 u=krafaels n=ansible | Tuesday 02 February 2021  12:22:36 -0600 (0:00:02.200)       0:00:02.437 ****** 
 2021-02-02 12:22:36,924 p=381474 u=krafaels n=ansible | =============================================================================== 
 2021-02-02 12:22:36,924 p=381474 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+2021-02-02 13:42:31,622 p=400180 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-02 13:42:31,877 p=400180 u=krafaels n=ansible | PLAY [localhost] *******************************************************************************************************************************************
+2021-02-02 13:42:31,889 p=400180 u=krafaels n=ansible | TASK [Gathering Facts] *************************************************************************************************************************************
+2021-02-02 13:42:31,890 p=400180 u=krafaels n=ansible | Tuesday 02 February 2021  13:42:31 -0600 (0:00:00.029)       0:00:00.029 ****** 
+2021-02-02 13:42:32,891 p=400180 u=krafaels n=ansible | ok: [localhost]
+2021-02-02 13:42:32,918 p=400180 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ********************************************************************************************************
+2021-02-02 13:42:32,918 p=400180 u=krafaels n=ansible | Tuesday 02 February 2021  13:42:32 -0600 (0:00:01.028)       0:00:01.057 ****** 
+2021-02-02 13:42:33,009 p=400180 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-02 13:42:33,029 p=400180 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] ***************************************************************************************
+2021-02-02 13:42:33,029 p=400180 u=krafaels n=ansible | Tuesday 02 February 2021  13:42:33 -0600 (0:00:00.111)       0:00:01.169 ****** 
+2021-02-02 13:42:33,632 p=400180 u=krafaels n=ansible | ok: [localhost]
+2021-02-02 13:42:33,653 p=400180 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *************************************************************************************************
+2021-02-02 13:42:33,653 p=400180 u=krafaels n=ansible | Tuesday 02 February 2021  13:42:33 -0600 (0:00:00.623)       0:00:01.792 ****** 
+2021-02-02 13:42:33,900 p=400180 u=krafaels n=ansible | ok: [localhost]
+2021-02-02 13:42:33,917 p=400180 u=krafaels n=ansible | TASK [ops_machineset : Create Worker Machine Config] *******************************************************************************************************
+2021-02-02 13:42:33,917 p=400180 u=krafaels n=ansible | Tuesday 02 February 2021  13:42:33 -0600 (0:00:00.264)       0:00:02.057 ****** 
+2021-02-02 13:42:35,633 p=400180 u=krafaels n=ansible | changed: [localhost]
+2021-02-02 13:42:35,637 p=400180 u=krafaels n=ansible | PLAY RECAP *************************************************************************************************************************************************
+2021-02-02 13:42:35,637 p=400180 u=krafaels n=ansible | localhost                  : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-02 13:42:35,637 p=400180 u=krafaels n=ansible | Tuesday 02 February 2021  13:42:35 -0600 (0:00:01.719)       0:00:03.777 ****** 
+2021-02-02 13:42:35,637 p=400180 u=krafaels n=ansible | =============================================================================== 
+2021-02-02 13:42:35,638 p=400180 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
+2021-02-03 09:44:56,014 p=58301 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-03 09:44:56,548 p=58301 u=krafaels n=ansible | PLAY [localhost] ***************************************************************************************************************************************************
+2021-02-03 09:44:56,574 p=58301 u=krafaels n=ansible | TASK [Gathering Facts] *********************************************************************************************************************************************
+2021-02-03 09:44:56,574 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:44:56 -0600 (0:00:00.057)       0:00:00.057 **** 
+2021-02-03 09:44:57,996 p=58301 u=krafaels n=ansible | ok: [localhost]
+2021-02-03 09:44:58,029 p=58301 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ****************************************************************************************************************
+2021-02-03 09:44:58,029 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:44:58 -0600 (0:00:01.455)       0:00:01.512 **** 
+2021-02-03 09:44:58,142 p=58301 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-playbook.yml for localhost
+2021-02-03 09:44:58,166 p=58301 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] ***********************************************************************************************
+2021-02-03 09:44:58,166 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:44:58 -0600 (0:00:00.137)       0:00:01.650 **** 
+2021-02-03 09:44:59,065 p=58301 u=krafaels n=ansible | ok: [localhost]
+2021-02-03 09:44:59,090 p=58301 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *********************************************************************************************************
+2021-02-03 09:44:59,091 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:44:59 -0600 (0:00:00.924)       0:00:02.574 **** 
+2021-02-03 09:44:59,434 p=58301 u=krafaels n=ansible | ok: [localhost]
+2021-02-03 09:44:59,457 p=58301 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***************************************************************************************************************
+2021-02-03 09:44:59,458 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:44:59 -0600 (0:00:00.366)       0:00:02.941 **** 
+2021-02-03 09:45:02,740 p=58301 u=krafaels n=ansible | changed: [localhost]
+2021-02-03 09:45:02,773 p=58301 u=krafaels n=ansible | TASK [ops_machineset : Set machine config role master state] *******************************************************************************************************
+2021-02-03 09:45:02,773 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:45:02 -0600 (0:00:03.315)       0:00:06.256 **** 
+2021-02-03 09:45:02,789 p=58301 u=krafaels n=ansible | ok: [localhost]
+2021-02-03 09:45:02,815 p=58301 u=krafaels n=ansible | TASK [ops_machineset : Create Worker Machine Config] ***************************************************************************************************************
+2021-02-03 09:45:02,815 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:45:02 -0600 (0:00:00.041)       0:00:06.298 **** 
+2021-02-03 09:45:04,626 p=58301 u=krafaels n=ansible | changed: [localhost]
+2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | PLAY RECAP *********************************************************************************************************************************************************
+2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | localhost                  : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:45:04 -0600 (0:00:01.817)       0:00:08.115 **** 
+2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | =============================================================================== 
+2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
