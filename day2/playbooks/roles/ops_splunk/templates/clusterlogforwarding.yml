@@ -1,0 +1,28 @@
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance 
+  namespace: openshift-logging 
+spec:
+  outputs:
+    - name: sbx2-syslog
+      type: syslog 
+      syslog: 
+      #  facility: local0
+        rfc: RFC3164
+      #  payloadKey: message
+        severity: debug
+      url: 'tls://10.13.10.100:514' 
+    #  secret: 
+    #     name: syslog-secret
+  pipelines:
+    - name: sbx2-syslog 
+      inputRefs: 
+      - audit
+      - application
+      - infrastructure
+      outputRefs: 
+      - sbx2-syslog
+      labels:
+        env: sbx2 
+        secure: true

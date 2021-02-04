@@ -63,5 +63,7 @@ spec:
           tags:
             - name: "kubernetes.io/cluster/{{ infrastructure_name }}"
               value: owned
+            - name: ResourceSaving
+              value: Waiver
           userDataSecret:
             name: worker-user-data   

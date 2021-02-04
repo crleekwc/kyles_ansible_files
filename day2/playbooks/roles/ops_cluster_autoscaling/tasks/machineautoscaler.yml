@@ -3,7 +3,7 @@
 
 - name: Create Machine Auto Scaler resources
   k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/{{ cluster_name }}.{{ base_domain }}/auth/kubeconfig"
+    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
     state: present
     definition: "{{ lookup('template', item) }}"
   loop: "{{ machine_autoscaler_files }}"
