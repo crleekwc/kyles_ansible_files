@@ -982,3 +982,69 @@ does not match 'all'
 2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | Wednesday 03 February 2021  09:45:04 -0600 (0:00:01.817)       0:00:08.115 **** 
 2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | =============================================================================== 
 2021-02-03 09:45:04,632 p=58301 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
+2021-02-04 10:24:45,731 p=378299 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does
+not match 'all'
+
+2021-02-04 10:24:45,960 p=378299 u=krafaels n=ansible | PLAY [localhost] *********************************************************************************************
+2021-02-04 10:24:45,971 p=378299 u=krafaels n=ansible | TASK [Gathering Facts] ***************************************************************************************
+2021-02-04 10:24:45,971 p=378299 u=krafaels n=ansible | Thursday 04 February 2021  10:24:45 -0600 (0:00:00.024)       0:00:00.024 ***** 
+2021-02-04 10:24:47,132 p=378299 u=krafaels n=ansible | ok: [localhost]
+2021-02-04 10:24:47,158 p=378299 u=krafaels n=ansible | TASK [ops_splunk : Include tasks from playbook] **************************************************************
+2021-02-04 10:24:47,158 p=378299 u=krafaels n=ansible | Thursday 04 February 2021  10:24:47 -0600 (0:00:01.187)       0:00:01.211 ***** 
+2021-02-04 10:24:47,235 p=378299 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_splunk/tasks/log-forwarding.yml for localhost
+2021-02-04 10:24:47,252 p=378299 u=krafaels n=ansible | TASK [ops_splunk : Create LogForwarding to Splunk] ***********************************************************
+2021-02-04 10:24:47,252 p=378299 u=krafaels n=ansible | Thursday 04 February 2021  10:24:47 -0600 (0:00:00.093)       0:00:01.305 ***** 
+2021-02-04 10:24:47,473 p=378444 u=krafaels n=ansible | [WARNING]: Unable to find '../templates/clusterlogforwarding.yaml' in expected paths (use -vvvvv to see
+paths)
+
+2021-02-04 10:24:47,476 p=378299 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {}
+
+MSG:
+
+An unhandled exception occurred while running the lookup plugin 'file'. Error was a <class 'ansible.errors.AnsibleError'>, original message: could not locate file in lookup: ../templates/clusterlogforwarding.yaml
+
+2021-02-04 10:24:47,477 p=378299 u=krafaels n=ansible | PLAY RECAP ***************************************************************************************************
+2021-02-04 10:24:47,478 p=378299 u=krafaels n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-04 10:24:47,478 p=378299 u=krafaels n=ansible | Thursday 04 February 2021  10:24:47 -0600 (0:00:00.225)       0:00:01.531 ***** 
+2021-02-04 10:24:47,478 p=378299 u=krafaels n=ansible | =============================================================================== 
+2021-02-04 10:24:47,478 p=378299 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds
+2021-02-04 10:25:36,422 p=378714 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does
+not match 'all'
+
+2021-02-04 10:25:36,641 p=378714 u=krafaels n=ansible | PLAY [localhost] *********************************************************************************************
+2021-02-04 10:25:36,693 p=378714 u=krafaels n=ansible | TASK [ops_splunk : Include tasks from playbook] **************************************************************
+2021-02-04 10:25:36,694 p=378714 u=krafaels n=ansible | Thursday 04 February 2021  10:25:36 -0600 (0:00:00.065)       0:00:00.065 ***** 
+2021-02-04 10:25:36,765 p=378714 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_splunk/tasks/log-forwarding.yaml for localhost
+2021-02-04 10:25:36,781 p=378714 u=krafaels n=ansible | TASK [ops_splunk : Create LogForwarding to Splunk] ***********************************************************
+2021-02-04 10:25:36,781 p=378714 u=krafaels n=ansible | Thursday 04 February 2021  10:25:36 -0600 (0:00:00.087)       0:00:00.152 ***** 
+2021-02-04 10:25:38,403 p=378714 u=krafaels n=ansible | fatal: [localhost]: FAILED! => {
+    "changed": false,
+    "error": 422,
+    "reason": "Unprocessable Entity",
+    "status": 422
+}
+
+MSG:
+
+Failed to create object: b'{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"ClusterLogForwarder.logging.openshift.io \\"instance\\" is invalid: spec.pipelines.labels.secure: Invalid value: \\"boolean\\": spec.pipelines.labels.secure in body must be of type string: \\"boolean\\"","reason":"Invalid","details":{"name":"instance","group":"logging.openshift.io","kind":"ClusterLogForwarder","causes":[{"reason":"FieldValueInvalid","message":"Invalid value: \\"boolean\\": spec.pipelines.labels.secure in body must be of type string: \\"boolean\\"","field":"spec.pipelines.labels.secure"}]},"code":422}\n'
+
+2021-02-04 10:25:38,405 p=378714 u=krafaels n=ansible | PLAY RECAP ***************************************************************************************************
+2021-02-04 10:25:38,405 p=378714 u=krafaels n=ansible | localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2021-02-04 10:25:38,405 p=378714 u=krafaels n=ansible | Thursday 04 February 2021  10:25:38 -0600 (0:00:01.624)       0:00:01.777 ***** 
+2021-02-04 10:25:38,405 p=378714 u=krafaels n=ansible | =============================================================================== 
+2021-02-04 10:25:38,405 p=378714 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds
+2021-02-04 10:26:17,675 p=378893 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does
+not match 'all'
+
+2021-02-04 10:26:17,908 p=378893 u=krafaels n=ansible | PLAY [localhost] *********************************************************************************************
+2021-02-04 10:26:17,969 p=378893 u=krafaels n=ansible | TASK [ops_splunk : Include tasks from playbook] **************************************************************
+2021-02-04 10:26:17,969 p=378893 u=krafaels n=ansible | Thursday 04 February 2021  10:26:17 -0600 (0:00:00.080)       0:00:00.080 ***** 
+2021-02-04 10:26:18,047 p=378893 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_splunk/tasks/log-forwarding.yaml for localhost
+2021-02-04 10:26:18,065 p=378893 u=krafaels n=ansible | TASK [ops_splunk : Create LogForwarding to Splunk] ***********************************************************
+2021-02-04 10:26:18,065 p=378893 u=krafaels n=ansible | Thursday 04 February 2021  10:26:18 -0600 (0:00:00.095)       0:00:00.175 ***** 
+2021-02-04 10:26:19,567 p=378893 u=krafaels n=ansible | changed: [localhost]
+2021-02-04 10:26:19,569 p=378893 u=krafaels n=ansible | PLAY RECAP ***************************************************************************************************
+2021-02-04 10:26:19,569 p=378893 u=krafaels n=ansible | localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-04 10:26:19,570 p=378893 u=krafaels n=ansible | Thursday 04 February 2021  10:26:19 -0600 (0:00:01.504)       0:00:01.680 ***** 
+2021-02-04 10:26:19,570 p=378893 u=krafaels n=ansible | =============================================================================== 
+2021-02-04 10:26:19,570 p=378893 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds

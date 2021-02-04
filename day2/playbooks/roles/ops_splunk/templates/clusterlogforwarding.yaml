@@ -25,4 +25,3 @@ spec:
       - sbx2-syslog
       labels:
         env: sbx2 
-        secure: true
