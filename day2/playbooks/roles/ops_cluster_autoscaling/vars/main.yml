@@ -5,6 +5,3 @@ machine_autoscaler_files:
   - "{{ role_path }}/templates/clusterWorkerScaler-1a.j2"
   - "{{ role_path }}/templates/clusterWorkerScaler-1b.j2"
   - "{{ role_path }}/templates/clusterWorkerScaler-1c.j2"
-  - "{{ role_path }}/templates/clusterStorageScaler-1a.j2"
-  - "{{ role_path }}/templates/clusterStorageScaler-1b.j2"
-  - "{{ role_path }}/templates/clusterStorageScaler-1c.j2"
