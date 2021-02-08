@@ -4,10 +4,10 @@
     # - ops_cluster_image_custom_certificate
     # - ops_cluster_ingress_custom_certificate
     # - ops_machineset
-    # - ops_cluster_autoscaling
+    - ops_cluster_autoscaling
     # - ops_ebs_storageclass
     # - ops_efk
-    - ops_splunk
+    # - ops_splunk
   vars:
     cluster_name: ocp4-fee54
     infrastructure_name: ocp4-fee54

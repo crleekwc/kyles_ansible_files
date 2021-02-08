@@ -16,26 +16,26 @@
     state: present
     definition: "{{ lookup('template', '../templates/machine-config-registry-conf.j2') }}"
 
-- name: Get base64 encode output for .conf
-  shell: base64 -w 0 {{ role_path}}/files/master-chrony.conf
-  changed_when: false
-  register: r_chrony_conf_b64encode
+# - name: Get base64 encode output for .conf
+#   shell: base64 -w 0 {{ role_path}}/files/master-chrony.conf
+#   changed_when: false
+#   register: r_chrony_conf_b64encode
 
-- name: Set chronyd conf base64 encoded
-  set_fact:
-    chrony_conf_b64encoded: "{{ r_chrony_conf_b64encode.stdout | trim }}"
+# - name: Set chronyd conf base64 encoded
+#   set_fact:
+#     chrony_conf_b64encoded: "{{ r_chrony_conf_b64encode.stdout | trim }}"
 
-- name: Create Master Machine Config
-  k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
-    state: present
-    definition: "{{ lookup('template', '../templates/masters-chrony-conf.j2') }}"
+# - name: Configure chrony on masters 
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+#     state: present
+#     definition: "{{ lookup('template', '../templates/masters-chrony-conf.j2') }}"
 
-- name: Create Worker Machine Config
-  k8s:
-    kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
-    state: present
-    definition: "{{ lookup('template', '../templates/workers-chrony-conf.j2') }}"
+# - name: Configure chrony on workers
+#   k8s:
+#     kubeconfig: "{{ lookup('env','HOME') }}/.kubeconfig"
+#     state: present
+#     definition: "{{ lookup('template', '../templates/workers-chrony-conf.j2') }}"
 
 - name: Set machine config role master state
   set_fact: 
