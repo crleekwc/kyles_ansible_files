@@ -6,6 +6,12 @@ spec:
   podPriorityThreshold: -10
   resourceLimits:
     maxNodesTotal: {{ total_max_node | default(16) }}
+    cores: 8
+      min: 8
+      max: 128
+    memory:
+      min: 4
+      max: 256
   scaleDown:
     enabled: true
     delayAfterAdd: 10m

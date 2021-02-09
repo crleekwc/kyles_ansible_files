@@ -32,16 +32,6 @@ spec:
                 iops: 0
                 volumeSize: 120
                 volumeType: gp2
-            - deviceName: /dev/sdb
-              ebs:
-                iops: 0
-                volumeSize: 1000
-                volumeType: gp2
-            - deviceName: /dev/sbc
-              ebs:
-                iops: 0
-                volumeSize: 1000
-                volumeType: gp2
           credentialsSecret:
             name: aws-cloud-credentials
           deviceIndex: 0

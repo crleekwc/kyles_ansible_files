@@ -1107,3 +1107,79 @@ not match 'all'
 2021-02-04 11:15:10,546 p=391187 u=krafaels n=ansible | Thursday 04 February 2021  11:15:10 -0600 (0:00:02.415)       0:00:07.575 ***** 
 2021-02-04 11:15:10,546 p=391187 u=krafaels n=ansible | =============================================================================== 
 2021-02-04 11:15:10,546 p=391187 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds
+2021-02-08 14:53:51,153 p=1693699 u=krafaels n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2021-02-08 14:53:51,427 p=1693699 u=krafaels n=ansible | PLAY [localhost] *********************************************************************************************************************
+2021-02-08 14:53:51,438 p=1693699 u=krafaels n=ansible | TASK [Gathering Facts] ***************************************************************************************************************
+2021-02-08 14:53:51,438 p=1693699 u=krafaels n=ansible | Monday 08 February 2021  14:53:51 -0600 (0:00:00.025)       0:00:00.025 ******* 
+2021-02-08 14:53:52,872 p=1693699 u=krafaels n=ansible | ok: [localhost]
+2021-02-08 14:53:52,895 p=1693699 u=krafaels n=ansible | TASK [ops_cluster_autoscaling : Include tasks from playbook] *************************************************************************
+2021-02-08 14:53:52,896 p=1693699 u=krafaels n=ansible | Monday 08 February 2021  14:53:52 -0600 (0:00:01.457)       0:00:01.482 ******* 
+2021-02-08 14:53:52,961 p=1693699 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_cluster_autoscaling/tasks/clusterautoscaler.yml for localhost
+2021-02-08 14:53:52,977 p=1693699 u=krafaels n=ansible | TASK [ops_cluster_autoscaling : Create Cluster Auto Scaler resource] *****************************************************************
+2021-02-08 14:53:52,977 p=1693699 u=krafaels n=ansible | Monday 08 February 2021  14:53:52 -0600 (0:00:00.081)       0:00:01.564 ******* 
+2021-02-08 14:53:55,275 p=1693699 u=krafaels n=ansible | changed: [localhost]
+2021-02-08 14:53:55,298 p=1693699 u=krafaels n=ansible | TASK [ops_cluster_autoscaling : Include tasks from playbook] *************************************************************************
+2021-02-08 14:53:55,299 p=1693699 u=krafaels n=ansible | Monday 08 February 2021  14:53:55 -0600 (0:00:02.321)       0:00:03.886 ******* 
+2021-02-08 14:53:55,329 p=1693699 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_cluster_autoscaling/tasks/machineautoscaler.yml for localhost
+2021-02-08 14:53:55,349 p=1693699 u=krafaels n=ansible | TASK [ops_cluster_autoscaling : Create Machine Auto Scaler resources] ****************************************************************
+2021-02-08 14:53:55,349 p=1693699 u=krafaels n=ansible | Monday 08 February 2021  14:53:55 -0600 (0:00:00.050)       0:00:03.936 ******* 
+2021-02-08 14:53:57,338 p=1693699 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_cluster_autoscaling/templates/clusterWorkerScaler-1a.j2)
+2021-02-08 14:53:58,729 p=1693699 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_cluster_autoscaling/templates/clusterWorkerScaler-1b.j2)
+2021-02-08 14:54:00,010 p=1693699 u=krafaels n=ansible | changed: [localhost] => (item=/home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_cluster_autoscaling/templates/clusterWorkerScaler-1c.j2)
+2021-02-08 14:54:00,016 p=1693699 u=krafaels n=ansible | PLAY RECAP ***************************************************************************************************************************
+2021-02-08 14:54:00,016 p=1693699 u=krafaels n=ansible | localhost                  : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-08 14:54:00,016 p=1693699 u=krafaels n=ansible | Monday 08 February 2021  14:54:00 -0600 (0:00:04.667)       0:00:08.603 ******* 
+2021-02-08 14:54:00,016 p=1693699 u=krafaels n=ansible | =============================================================================== 
+2021-02-08 14:54:00,017 p=1693699 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
+2021-02-09 09:07:06,780 p=1919075 u=krafaels n=ansible | PLAY [localhost] ***********************************************************************************
+2021-02-09 09:07:06,794 p=1919075 u=krafaels n=ansible | TASK [Gathering Facts] *****************************************************************************
+2021-02-09 09:07:06,794 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:06 -0600 (0:00:00.031)       0:00:00.031 ****** 
+2021-02-09 09:07:08,017 p=1919075 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:07:08,052 p=1919075 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ************************************************
+2021-02-09 09:07:08,052 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:08 -0600 (0:00:01.257)       0:00:01.288 ****** 
+2021-02-09 09:07:08,145 p=1919075 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-tasks.yml for localhost
+2021-02-09 09:07:08,170 p=1919075 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] *******************************
+2021-02-09 09:07:08,171 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:08 -0600 (0:00:00.118)       0:00:01.407 ****** 
+2021-02-09 09:07:08,868 p=1919075 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:07:08,888 p=1919075 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *****************************************
+2021-02-09 09:07:08,888 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:08 -0600 (0:00:00.717)       0:00:02.125 ****** 
+2021-02-09 09:07:09,176 p=1919075 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:07:09,197 p=1919075 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] ***********************************************
+2021-02-09 09:07:09,197 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:09 -0600 (0:00:00.309)       0:00:02.434 ****** 
+2021-02-09 09:07:11,930 p=1919075 u=krafaels n=ansible | changed: [localhost]
+2021-02-09 09:07:11,953 p=1919075 u=krafaels n=ansible | TASK [ops_machineset : Set machine config role master state] ***************************************
+2021-02-09 09:07:11,953 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:11 -0600 (0:00:02.755)       0:00:05.189 ****** 
+2021-02-09 09:07:11,967 p=1919075 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:07:11,991 p=1919075 u=krafaels n=ansible | TASK [ops_machineset : Create Worker Machine Config] ***********************************************
+2021-02-09 09:07:11,991 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:11 -0600 (0:00:00.038)       0:00:05.228 ****** 
+2021-02-09 09:07:13,939 p=1919075 u=krafaels n=ansible | changed: [localhost]
+2021-02-09 09:07:13,943 p=1919075 u=krafaels n=ansible | PLAY RECAP *****************************************************************************************
+2021-02-09 09:07:13,943 p=1919075 u=krafaels n=ansible | localhost                  : ok=7    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-09 09:07:13,943 p=1919075 u=krafaels n=ansible | Tuesday 09 February 2021  09:07:13 -0600 (0:00:01.952)       0:00:07.180 ****** 
+2021-02-09 09:07:13,943 p=1919075 u=krafaels n=ansible | =============================================================================== 
+2021-02-09 09:07:13,944 p=1919075 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds
+2021-02-09 09:09:03,176 p=1919843 u=krafaels n=ansible | PLAY [localhost] *******************************************************************************************************
+2021-02-09 09:09:03,241 p=1919843 u=krafaels n=ansible | TASK [ops_machineset : Include tasks from playbook] ********************************************************************
+2021-02-09 09:09:03,241 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:03 -0600 (0:00:00.081)       0:00:00.081 ****** 
+2021-02-09 09:09:03,334 p=1919843 u=krafaels n=ansible | included: /home/krafaels/projects/domino-ocp-upgrade/ocp4-configuration/day2/playbooks/roles/ops_machineset/tasks/machineconfig-tasks.yml for localhost
+2021-02-09 09:09:03,357 p=1919843 u=krafaels n=ansible | TASK [ops_machineset : Get base64 encode output for registries.conf] ***************************************************
+2021-02-09 09:09:03,357 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:03 -0600 (0:00:00.115)       0:00:00.197 ****** 
+2021-02-09 09:09:03,958 p=1919843 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:09:03,981 p=1919843 u=krafaels n=ansible | TASK [ops_machineset : Set registries conf base64 encoded] *************************************************************
+2021-02-09 09:09:03,981 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:03 -0600 (0:00:00.623)       0:00:00.821 ****** 
+2021-02-09 09:09:04,257 p=1919843 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:09:04,278 p=1919843 u=krafaels n=ansible | TASK [ops_machineset : Create Master Machine Config] *******************************************************************
+2021-02-09 09:09:04,278 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:04 -0600 (0:00:00.296)       0:00:01.118 ****** 
+2021-02-09 09:09:06,072 p=1919843 u=krafaels n=ansible | changed: [localhost]
+2021-02-09 09:09:06,100 p=1919843 u=krafaels n=ansible | TASK [ops_machineset : Set machine config role master state] ***********************************************************
+2021-02-09 09:09:06,100 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:06 -0600 (0:00:01.822)       0:00:02.940 ****** 
+2021-02-09 09:09:06,113 p=1919843 u=krafaels n=ansible | ok: [localhost]
+2021-02-09 09:09:06,137 p=1919843 u=krafaels n=ansible | TASK [ops_machineset : Create Worker Machine Config] *******************************************************************
+2021-02-09 09:09:06,137 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:06 -0600 (0:00:00.037)       0:00:02.977 ****** 
+2021-02-09 09:09:08,127 p=1919843 u=krafaels n=ansible | changed: [localhost]
+2021-02-09 09:09:08,130 p=1919843 u=krafaels n=ansible | PLAY RECAP *************************************************************************************************************
+2021-02-09 09:09:08,130 p=1919843 u=krafaels n=ansible | localhost                  : ok=6    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2021-02-09 09:09:08,130 p=1919843 u=krafaels n=ansible | Tuesday 09 February 2021  09:09:08 -0600 (0:00:01.992)       0:00:04.970 ****** 
+2021-02-09 09:09:08,130 p=1919843 u=krafaels n=ansible | =============================================================================== 
+2021-02-09 09:09:08,132 p=1919843 u=krafaels n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
